@@ -22,7 +22,7 @@ class MenuNameResource extends Resource
     use ResourceTrait;
 
     protected static ?string $model = MenuName::class;
-    protected static ?string $table = 'menu_names';
+    public static ?string $table = 'menu_names';
     protected static ?string $navigationIcon = 'heroicon-o-bars-3';
     protected static ?int $navigationSort = 51;
 

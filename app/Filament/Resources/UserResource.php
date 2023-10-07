@@ -36,7 +36,7 @@ class UserResource extends Resource
     use ResourceTrait;
 
     protected static ?string $model = User::class;
-    protected static ?string $table = 'users';
+    public static ?string $table = 'users';
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?int $navigationSort = 91;
 

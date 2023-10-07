@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Helpers\Param;
 use App\Services\Registry\Repository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use PDO;
 
@@ -32,7 +33,9 @@ class RegistryServiceProvider extends ServiceProvider
         // Добавляем данные
         if (DB::connection()->getPdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS)) {
             $registry = app('registry');
-            $registry->set('params', Param::all());
+            if (Schema::hasTable('params')) {
+                $registry->set('params', cache()->remember('params_all', 600, fn () => Param::all()));
+            }
         }
     }
 }

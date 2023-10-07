@@ -17,15 +17,15 @@ class EditMenu extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\DeleteAction::make(),
             /*Actions\EditAction::make()
                 ->using(function (Model $record, array $data): Model {
                     $record->update($data);
                     return $record;
                 }),*/
             Action::make('create')
-                ->url($this->getCreateUrlFromEditPage())
+                ->url(self::getCreateUrl())
                 ->translateLabel(),
-            Actions\DeleteAction::make(),
         ];
     }
 

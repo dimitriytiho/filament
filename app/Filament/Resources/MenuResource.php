@@ -33,7 +33,7 @@ class MenuResource extends Resource
     use ResourceTrait;
 
     protected static ?string $model = Menu::class;
-    protected static ?string $table = 'menus';
+    public static ?string $table = 'menus';
     protected static ?string $navigationIcon = 'heroicon-o-bars-2';
     protected static ?int $navigationSort = 50;
 

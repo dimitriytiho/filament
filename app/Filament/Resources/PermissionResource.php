@@ -29,7 +29,7 @@ class PermissionResource extends Resource
     use ResourceTrait;
 
     protected static ?string $model = Permission::class;
-    protected static ?string $table = 'permissions';
+    public static ?string $table = 'permissions';
     protected static ?string $navigationIcon = 'heroicon-m-finger-print';
     protected static ?int $navigationSort = 93;
 

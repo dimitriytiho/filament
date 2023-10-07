@@ -23,7 +23,7 @@ class ParamResource extends Resource
     use ResourceTrait;
 
     protected static ?string $model = Param::class;
-    protected static ?string $table = 'params';
+    public static ?string $table = 'params';
     protected static ?string $navigationIcon = 'heroicon-o-cog-8-tooth';
     protected static ?int $navigationSort = 95;
 

@@ -17,10 +17,10 @@ class EditPermission extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('create')
-                ->url($this->getCreateUrlFromEditPage())
-                ->translateLabel(),
             Actions\DeleteAction::make(),
+            Action::make('create')
+                ->url(self::getCreateUrl())
+                ->translateLabel(),
         ];
     }
 }

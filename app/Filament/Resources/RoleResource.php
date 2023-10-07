@@ -27,7 +27,7 @@ class RoleResource extends Resource
     use ResourceTrait;
 
     protected static ?string $model = Role::class;
-    protected static ?string $table = 'roles';
+    public static ?string $table = 'roles';
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
     protected static ?int $navigationSort = 92;
 
