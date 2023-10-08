@@ -108,12 +108,20 @@ class MenuResource extends Resource
                                         $fail(__('validation.is_invalid'));
                                     }
                                 },
-                                /*fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                                fn (Get $get, $record): Closure => function (string $attribute, $value, Closure $fail) use ($get, $record) {
                                     // Только для edit и нельзя сохранить одного из потомков как родителя
-                                    dd($get);
-                                },*/
+                                    if ($get('id') && $record?->descendants?->pluck('id')?->contains($get('id'))) {
+                                        $fail(__('validation.is_invalid'));
+                                    }
+                                },
                             ])
-                            ->options(fn (Get $get): array => Tree::select(MenuHelper::find($get('menu_name_id'), false)))
+                            ->options(function (Get $get, Menu $record) {
+                                return Tree::select(MenuHelper::find(
+                                    $get('menu_name_id'),
+                                    false,
+                                    MenuHelper::descendantsAndSelf($record)
+                                ));
+                            })
                             ->searchable()
                             ->translateLabel(),
                     ])

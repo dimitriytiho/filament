@@ -31,21 +31,17 @@ class EditMenu extends EditRecord
 
     protected function afterFormValidated(): void
     {
-        if ($this?->data) {
+        /*if ($this?->data) {
 
             // Нельзя сохранить в $parentId свой id
-            /*$id = $this?->data['id'] ?? null;
+            $id = $this?->data['id'] ?? null;
             $parentId = $this?->data['parent_id'] ?? null;
             if ($id && $id == $parentId) {
                 dd(2);
                 $this->data['parent_id'] = null;
                 $this->record->update($this->data);
             }
-            dd(1);*/
-
-            // Нельзя сохранить одного из потомков как родителя
-            $parents = $this->record?->ancestors?->pluck('id'); // Все id родителей
-            //dd($id);
-        }
+            dd(1);
+        }*/
     }
 }
