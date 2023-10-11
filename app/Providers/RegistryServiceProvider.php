@@ -31,11 +31,11 @@ class RegistryServiceProvider extends ServiceProvider
         $this->app->singleton('registry', Repository::class);
 
         // Добавляем данные
-        if (DB::connection()->getPdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS)) {
+        /*if (DB::connection()->getPdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS)) {
             $registry = app('registry');
             if (Schema::hasTable('params')) {
                 $registry->set('params', cache()->remember('params_all', 600, fn () => Param::all()));
             }
-        }
+        }*/
     }
 }

@@ -41,4 +41,12 @@ class Menu extends Model
     {
         return $this->belongsTo(MenuName::class);
     }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::saving(function ($model) {
+            cache()->forget($model->getTable() . '_*');
+        });
+    }
 }

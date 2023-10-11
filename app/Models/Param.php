@@ -20,11 +20,11 @@ class Param extends Model
         'data' => 'json',
     ];
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
         static::saving(function ($model) {
-            cache()->flush();
+            cache()->forget($model->getTable() . '_*');
         });
     }
 }

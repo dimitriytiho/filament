@@ -7,7 +7,8 @@ use App\Filament\Resources\ParamResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
 use App\Models\Param;
 use Filament\Forms;
-use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -15,8 +16,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ParamResource extends Resource
 {
@@ -41,14 +40,11 @@ class ParamResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->translateLabel(),
-                        TextInput::make('value')
+                        Textarea::make('value')
                             ->maxLength(255)
                             ->translateLabel(),
-                        Repeater::make('data')
-                            ->schema([
-                                TextInput::make('item')
-                                    ->translateLabel(),
-                            ])
+                        KeyValue::make('data')
+                            ->reorderable()
                             ->translateLabel(),
                     ])
                     ->columns(2),
