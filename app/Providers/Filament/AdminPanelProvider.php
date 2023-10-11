@@ -67,7 +67,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             // Ссылка на аккаунт
             ->userMenuItems([
-                'profile' => MenuItem::make()->url(fn (): string => route("filament.{$slug}.resources.users.edit", auth()->user()?->id))
+                'profile' => MenuItem::make()->url(fn (): string => route("filament.{$slug}.resources.users.edit", filament()->auth()->user()->getAuthIdentifier()))
             ]);
     }
 

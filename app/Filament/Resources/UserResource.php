@@ -27,6 +27,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Hash;
 use Filament\Support\Facades\FilamentView;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\View;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -82,15 +83,17 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         // Добавить вид в конце контента
-        FilamentView::registerRenderHook(
+        /*FilamentView::registerRenderHook(
             'panels::page.end',
             fn (): View => view('filament.user.edit'),
-        );
+        );*/
 
+        $gravatar = new HtmlString(__('avatar_description') . '<a href="https://www.gravatar.com" class="text-primary-600" target="_blank">Gravatar</a>');
         return $form
             ->schema([
                 //Forms\Components\Group::make(),
                 Section::make()
+                    ->description(fn ($record) => $record?->id === filament()->auth()->user()->getAuthIdentifier() ? $gravatar : null)
                     ->schema([
                         TextInput::make('id')
                             ->disabled()
