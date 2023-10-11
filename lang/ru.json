@@ -34,5 +34,7 @@
     "permissions": "Разрешения",
     "roles": "Роли",
     "to_add_or_change_avatar": "Добавить или изменить свою картинку",
+    "Cache delete": "Удалить кэши",
+    "completed_successfully": "Успешно завершено",
     "users": "Пользователи"
 }

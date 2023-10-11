@@ -3,6 +3,9 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Traits\PageTrait;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +20,9 @@ class Additionally extends Page
     protected static string $view = 'filament.pages.additionally';
     protected static ?string $title = 'additionally';
     protected static ?int $navigationSort = 99;
+    protected $rules = [
+        'name' => 'required'
+    ];
 
 
     /**
@@ -49,7 +55,11 @@ class Additionally extends Page
                 //->color('warning')
                 ->action(function (): void {
 
-                    //
+                    /*cache()->flush();
+                    Artisan::call('view:clear');
+                    Artisan::call('route:clear');
+                    Artisan::call('config:clear');
+                    return redirect()->back();*/
 
                     Notification::make()
                         ->title(__('completed_successfully'))
@@ -59,13 +69,57 @@ class Additionally extends Page
         ];
     }
 
-    public static function cache()
+    public function cacheDeleteAction(): Action
     {
-        dd(123);
-        /*cache()->flush();
-        Artisan::call('view:clear');
-        Artisan::call('route:clear');
-        Artisan::call('config:clear');
-        return redirect()->back();*/
+        return Action::make('cacheDelete')
+            //->icon('heroicon-m-x-mark')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->action(function () {
+
+                //
+
+                Notification::make()
+                    ->title(__('completed_successfully'))
+                    ->success()
+                    ->send();
+            })
+            ->translateLabel();
     }
+
+    /*public function getAction(array|string $name): ?Action
+    {
+        return Action::make('test')
+            //->icon('heroicon-m-x-mark')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->action(function () {
+
+            })
+            ->translateLabel();
+    }*/
+
+    /*public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make()
+                    ->schema([
+                        TextInput::make('name'),
+                    ])
+            ]);
+    }*/
+
+    /*protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('name'),
+        ];
+    }*/
+
+    /*public function submit()
+    {
+        $this->validate();
+        // Save the settings here
+    }*/
 }
