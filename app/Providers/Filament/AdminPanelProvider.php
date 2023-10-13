@@ -20,6 +20,8 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
+use Filament\Navigation\NavigationItem;
+use Filament\Pages\Dashboard;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -36,6 +38,15 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => $color,
             ])
+            /*->navigationItems([
+                NavigationItem::make('dashboard')
+                    ->label(fn (): string => __('filament-panels::pages/dashboard.title'))
+                    ->url(fn (): string => Dashboard::getUrl())
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.pages.dashboard'))
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->group('Reports')
+                    ->sort(1),
+            ])*/
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
