@@ -65,6 +65,7 @@ class DummyResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $dateFormat = FilamentHelper::dateFormat();
         return $table
             ->query(function (Feed $model) {
                 return $model->where('user_id', filament()?->auth()?->user()?->getAuthIdentifier());
@@ -73,6 +74,23 @@ class DummyResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('updated_at')
+                    ->dateTime($dateFormat)
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('created_at')
+                    ->dateTime($dateFormat)
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('deleted_at')
+                    ->dateTime($dateFormat)
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
                     ->translateLabel(),
             ])
             ->filters([
