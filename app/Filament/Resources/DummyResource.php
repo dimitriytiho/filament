@@ -6,7 +6,7 @@ use App\Filament\Resources\DummyResource\Pages;
 use App\Filament\Resources\DummyResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
-use App\Models\User;
+use App\Models\Dummy;
 use Closure;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
@@ -24,8 +24,8 @@ class DummyResource extends Resource
 {
     use ResourceTrait;
 
-    protected static ?string $model = User::class;
-    public static ?string $table = 'users';
+    protected static ?string $model = Dummy::class;
+    public static ?string $table = 'dummies';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?int $navigationSort = 10;
 
@@ -66,9 +66,9 @@ class DummyResource extends Resource
     {
         $dateFormat = FilamentHelper::dateFormat();
         return $table
-            ->query(function (Feed $model) {
+            /*->query(function (User $model) {
                 return $model->where('user_id', filament()?->auth()?->user()?->getAuthIdentifier());
-            })
+            })*/
             ->poll('60s')
             ->columns([
                 TextColumn::make('id')
