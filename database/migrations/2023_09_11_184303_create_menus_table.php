@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('menu_name_id')
                 ->references('id')
                 ->on('menu_names')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
 
             $table->string('title')->nullable()->index();
             $table->string('link')->nullable()->index();

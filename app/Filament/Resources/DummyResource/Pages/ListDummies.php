@@ -6,7 +6,7 @@ use App\Filament\Resources\DummyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListDummys extends ListRecords
+class ListDummies extends ListRecords
 {
     protected static string $resource = DummyResource::class;
 

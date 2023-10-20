@@ -6,7 +6,6 @@ use App\Filament\Resources\DummyResource\Pages;
 use App\Filament\Resources\DummyResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
-use App\Models\Feed;
 use App\Models\User;
 use Closure;
 use Filament\Forms\Components\Grid;
@@ -125,7 +124,7 @@ class DummyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDummys::route('/'),
+            'index' => Pages\ListDummies::route('/'),
             'create' => Pages\CreateDummy::route('/create'),
             'edit' => Pages\EditDummy::route('/{record}/edit'),
         ];
@@ -147,8 +146,8 @@ class DummyResource extends Resource
      *
      * @return string[]
      */
-    /*public static function getGloballySearchableAttributes(): array
+    public static function getGloballySearchableAttributes(): array
     {
-        return ['name'];
-    }*/
+        return ['title'];
+    }
 }

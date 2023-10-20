@@ -18,11 +18,11 @@ return new class extends Migration
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
         });
     }
 
