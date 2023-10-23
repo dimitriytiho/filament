@@ -5,11 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MenuResource\Pages;
 use App\Filament\Resources\MenuResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
+use App\Helpers\FilamentHelper;
 use App\Helpers\Tree;
 use App\Models\Menu;
 use App\Models\MenuName;
 use Closure;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -41,8 +44,133 @@ class MenuResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
+
                 Section::make()
+                    ->columnSpan(['lg' => 2])
+                    ->schema([
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('id')
+                                    ->disabled()
+                                    ->translateLabel(),
+                                Select::make('menu_name_id')
+                                    ->relationship('menuName', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->default(session('table_filters.menu_name')) // Получаем из сессии id MenuName
+                                    ->required()
+                                    ->translateLabel()
+                                    ->live()
+                                    ->createOptionForm(MenuNameResource::forms()),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('title')
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+                                TextInput::make('link')
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                Select::make('parent_id')
+                                    ->label('Parent')
+                                    ->rules([
+                                        fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                                            // Только для edit и id не должно равно parent_id
+                                            if ($get('id') && $get('id') == $value) {
+                                                $fail(__('validation.is_invalid'));
+                                            }
+                                        },
+                                        fn (Get $get, $record): Closure => function (string $attribute, $value, Closure $fail) use ($get, $record) {
+                                            // Только для edit и нельзя сохранить одного из потомков как родителя
+                                            if ($get('id') && $record?->descendants?->pluck('id')?->contains($get('id'))) {
+                                                $fail(__('validation.is_invalid'));
+                                            }
+                                        },
+                                    ])
+                                    ->options(function (Get $get, Menu $record) {
+                                        return Tree::select(MenuHelper::find(
+                                            $get('menu_name_id'),
+                                            false,
+                                            MenuHelper::descendantsAndSelf($record)
+                                        ));
+                                    })
+                                    ->searchable()
+                                    ->translateLabel(),
+                                TextInput::make('sort')
+                                    ->integer()
+                                    ->minValue(0)
+                                    ->maxValue(65535)
+                                    ->default(5000)
+                                    ->translateLabel(),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('item')
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+                                TextInput::make('class')
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('target')
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+//                                Select::make('image')
+//                                    ->options([])
+//                                    ->searchable()
+//                                    ->translateLabel(),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                RichEditor::make('content')
+                                    ->disableToolbarButtons([
+                                        'attachFiles',
+                                        'blockquote',
+                                        'link',
+                                        'orderedList',
+                                        'bulletList',
+                                    ])
+                                    ->translateLabel(),
+                                Repeater::make('attrs')
+                                    ->schema([
+                                        TextInput::make('attr')
+                                            ->translateLabel(),
+                                    ])
+                                    ->translateLabel(),
+                            ]),
+                    ]),
+
+                Section::make()
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn ($record) => $record === null)
+                    ->schema([
+                        Toggle::make('active')
+                            ->default(false)
+                            ->translateLabel(),
+                        Placeholder::make('id')
+                            ->content(fn ($record): ?int => $record?->id)
+                            ->translateLabel(),
+                        Placeholder::make('created_at')
+                            ->content(fn ($record): ?string => $record?->created_at?->format(FilamentHelper::dateFormat()))
+                            ->translateLabel(),
+                        Placeholder::make('updated_at')
+                            ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans())
+                            ->translateLabel(),
+                    ]),
+                /*Section::make()
                     ->schema([
                         TextInput::make('id')
                             ->disabled()
@@ -125,7 +253,7 @@ class MenuResource extends Resource
                             ->searchable()
                             ->translateLabel(),
                     ])
-                    ->columns(2),
+                    ->columns(2),*/
             ]);
     }
 

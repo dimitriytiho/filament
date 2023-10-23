@@ -41,6 +41,7 @@ class FilamentHelper
     {
         $slug = self::getSlug();
         $action = $action ?: 'index';
+        $table = str_replace('_', '-', $table);
         $route = "filament.{$slug}.resources.{$table}.{$action}";
         if (Route::has($route)) {
             if ($action === 'edit' && $record) {

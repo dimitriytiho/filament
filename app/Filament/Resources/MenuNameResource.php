@@ -5,8 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MenuNameResource\Pages;
 use App\Filament\Resources\MenuNameResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
+use App\Helpers\FilamentHelper;
 use App\Models\MenuName;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -59,11 +62,42 @@ class MenuNameResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
+
                 Section::make()
-                    ->schema(self::forms())
-                    ->columns(2)
-                ->translateLabel(),
+                    ->columnSpan(['lg' => 2])
+                    ->schema([
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->maxLength(255)
+                                    ->required()
+                                    ->translateLabel(),
+                                TextInput::make('sort')
+                                    ->integer()
+                                    ->minValue(0)
+                                    ->maxValue(65535)
+                                    ->default(5000)
+                                    ->translateLabel(),
+                            ]),
+                    ]),
+
+                Section::make()
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn ($record) => $record === null)
+                    ->schema([
+                        Placeholder::make('id')
+                            ->content(fn ($record): ?int => $record?->id)
+                            ->translateLabel(),
+                        Placeholder::make('created_at')
+                            ->content(fn ($record): ?string => $record?->created_at?->format(FilamentHelper::dateFormat()))
+                            ->translateLabel(),
+                        Placeholder::make('updated_at')
+                            ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans())
+                            ->translateLabel(),
+                    ]),
             ]);
     }
 
