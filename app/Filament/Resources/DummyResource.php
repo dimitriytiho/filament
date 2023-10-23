@@ -8,17 +8,25 @@ use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\Dummy;
 use Closure;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class DummyResource extends Resource
 {
@@ -28,6 +36,16 @@ class DummyResource extends Resource
     public static ?string $table = 'dummies';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?int $navigationSort = 10;
+
+    /**
+     * В левом меню показывать кол-во элементов в таблице.
+     *
+     * @return string|null
+     */
+    public static function getNavigationBadge(): ?string
+    {
+        return cache()->remember(static::$table . '_count', FilamentHelper::cacheTime(), fn (): int => static::$model::count());
+    }
 
     public static function form(Form $form): Form
     {
@@ -41,7 +59,35 @@ class DummyResource extends Resource
 
                         Grid::make()
                             ->schema([
-
+                                TextInput::make('title')
+                                    ->maxLength(255)
+                                    //->live(debounce: 1000)
+                                    ->suffixAction(
+                                        Action::make('create')
+                                            //->disabled($form->getOperation() === 'create')
+                                            ->label(__('turn_into_link'))
+                                            ->icon('heroicon-m-plus')
+                                            ->action(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                    //->url('/admin/files/create')
+                                    //->openUrlInNewTab()
+                                    )
+                                    //->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                    ->translateLabel(),
+                                TextInput::make('slug')
+                                    ->default(fn(Get $get): string => Str::slug($get('title')))
+                                    ->unique(ignoreRecord: true)
+                                    ->maxLength(255)
+                                    ->required()
+                                    ->translateLabel(),
+                            ]),
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('sort')
+                                    ->integer()
+                                    ->minValue(0)
+                                    ->maxValue(65535)
+                                    ->default(5000)
+                                    ->translateLabel(),
                             ]),
                     ]),
 
@@ -49,6 +95,9 @@ class DummyResource extends Resource
                     ->columnSpan(['lg' => 1])
                     ->hidden(fn ($record) => $record === null)
                     ->schema([
+                        Toggle::make('active')
+                            ->default(false)
+                            ->translateLabel(),
                         Placeholder::make('id')
                             ->content(fn ($record): ?int => $record?->id)
                             ->translateLabel(),
@@ -57,6 +106,14 @@ class DummyResource extends Resource
                             ->translateLabel(),
                         Placeholder::make('updated_at')
                             ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans())
+                            ->translateLabel(),
+                    ]),
+
+                Section::make()
+                    ->columnSpan(['lg' => 3])
+                    ->schema([
+                        MarkdownEditor::make('body')
+                            ->toolbarButtons()
                             ->translateLabel(),
                     ]),
             ]);
@@ -72,6 +129,22 @@ class DummyResource extends Resource
             ->poll('60s')
             ->columns([
                 TextColumn::make('id')
+                    ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('slug')
+                    ->searchable()
+                    ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('sort')
+                    ->sortable()
+                    ->translateLabel(),
+                IconColumn::make('active')
+                    ->boolean()
+                    ->toggleable()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
