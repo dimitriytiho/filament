@@ -72,6 +72,7 @@ class DummyResource extends Resource
                                     //->openUrlInNewTab()
                                     )
                                     //->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                    ->required()
                                     ->translateLabel(),
                                 TextInput::make('slug')
                                     ->default(fn(Get $get): string => Str::slug($get('title')))
