@@ -5,17 +5,16 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RoleResource\Pages;
 use App\Filament\Resources\RoleResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
-use App\Helpers\Arr;
+use App\Helpers\FilamentHelper;
 use App\Models\Role;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
@@ -41,8 +40,7 @@ class RoleResource extends Resource
      */
     public static function can(string $action, ?Model $record = null): bool
     {
-        return true;
-        //return parent::can($action, $record);
+        return auth()?->user()?->isAdmin();
     }
 
     /**
@@ -60,7 +58,6 @@ class RoleResource extends Resource
         return [
             TextInput::make('id')
                 ->disabled()
-                ->visible((bool) request()->segment(3))
                 ->translateLabel(),
             TextInput::make('name')
                 ->maxLength(255)
@@ -86,10 +83,44 @@ class RoleResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
+
                 Section::make()
-                    ->schema(self::forms())
-                    ->columns(2),
+                    ->columnSpan(['lg' => 2])
+                    ->schema([
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->maxLength(255)
+                                    ->unique(ignoreRecord: true)
+                                    ->required()
+                                    ->translateLabel(),
+                                Select::make('permissions')
+                                    ->relationship('permissions', 'name')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm(PermissionResource::forms())
+                                    ->translateLabel(),
+                            ]),
+                    ]),
+
+                Section::make()
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn ($record) => $record === null)
+                    ->schema([
+                        Placeholder::make('id')
+                            ->content(fn ($record): ?int => $record?->id)
+                            ->translateLabel(),
+                        Placeholder::make('created_at')
+                            ->content(fn ($record): ?string => $record?->created_at?->format(FilamentHelper::dateFormat()))
+                            ->translateLabel(),
+                        Placeholder::make('updated_at')
+                            ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans())
+                            ->translateLabel(),
+                    ]),
             ]);
     }
 
@@ -102,6 +133,7 @@ class RoleResource extends Resource
      */
     public static function table(Table $table): Table
     {
+        $dateFormat = FilamentHelper::dateFormat();
         return $table
             ->poll('60s')
             ->columns([
@@ -115,13 +147,13 @@ class RoleResource extends Resource
                 TextColumn::make('permissions.name')
                     ->sortable(),
                 TextColumn::make('updated_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime($dateFormat)
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime($dateFormat)
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
@@ -134,7 +166,7 @@ class RoleResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ]),
+                ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

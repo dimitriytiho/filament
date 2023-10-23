@@ -4,6 +4,7 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use App\Filament\Traits\ResourceActionTrait;
+use App\Helpers\FilamentHelper;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
@@ -22,7 +23,7 @@ class EditUser extends EditRecord
             Actions\RestoreAction::make(),
             Actions\ForceDeleteAction::make(),
             Action::make('create')
-                ->url(self::getCreateUrl())
+                ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->translateLabel(),
         ];
     }

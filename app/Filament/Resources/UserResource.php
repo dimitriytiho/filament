@@ -5,15 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\Relations\UserRelation;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Traits\ResourceTrait;
+use App\Helpers\FilamentHelper;
 use App\Models\User;
-use Filament\Actions\DeleteAction;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
@@ -26,11 +22,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Hash;
-use Filament\Support\Facades\FilamentView;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Illuminate\Support\HtmlString;
-use Illuminate\View\View;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\RelationManagers\RelationGroup;
 
 class UserResource extends Resource
 {
@@ -51,7 +45,7 @@ class UserResource extends Resource
      */
     public static function can(string $action, ?Model $record = null): bool
     {
-        return auth()->user()->isAdmin();
+        return auth()?->user()?->isAdmin();
     }
 
     /**
@@ -71,7 +65,7 @@ class UserResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return cache()->remember(static::$table . '_count', static::cacheTime(), fn (): int => static::$model::count());
+        return cache()->remember(self::$table . '_count', FilamentHelper::cacheTime(), fn (): int => static::$model::count());
     }
 
     /**
@@ -82,65 +76,84 @@ class UserResource extends Resource
      */
     public static function form(Form $form): Form
     {
-        // Добавить вид в конце контента
-        /*FilamentView::registerRenderHook(
-            'panels::page.end',
-            fn (): View => view('filament.user.edit'),
-        );*/
-
         $gravatar = new HtmlString(__('avatar_description') . '<a href="https://www.gravatar.com" class="text-primary-600" target="_blank">Gravatar</a>');
         return $form
+            ->columns(3)
             ->schema([
-                //Forms\Components\Group::make(),
+
                 Section::make()
-                    ->description(fn ($record) => $record?->id === filament()->auth()->user()->getAuthIdentifier() ? $gravatar : null)
+                    ->columnSpan(['lg' => 2])
                     ->schema([
-                        TextInput::make('id')
-                            ->disabled()
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->maxLength(255)
+                                    ->required()
+                                    ->translateLabel(),
+                                TextInput::make('email')
+                                    ->maxLength(255)
+                                    ->email()
+                                    ->unique(ignoreRecord: true)
+                                    ->required()
+                                    ->translateLabel(),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                Select::make('roles')
+                                    ->relationship('roles', 'name')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm(RoleResource::forms())
+                                    ->translateLabel(),
+                                Select::make('permissions')
+                                    ->relationship('permissions', 'name')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm(PermissionResource::forms())
+                                    ->translateLabel(),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('password')
+                                    ->maxLength(50)
+                                    ->password()
+                                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                                    ->dehydrated(fn ($state) => filled($state))
+                                    ->required(fn (string $context): bool => $context === 'create')
+                                    ->same('password_confirmation')
+                                    ->confirmed()
+                                    ->minLength(8)
+                                    ->translateLabel(),
+                                TextInput::make('password_confirmation')
+                                    ->password()
+                                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                                    ->dehydrated(fn ($state) => filled($state))
+                                    ->required(fn (string $context): bool => $context === 'create')
+                                    ->minLength(8)
+                                    ->translateLabel(),
+                            ]),
+                    ]),
+
+                Section::make()
+                    ->description(fn ($record) => $record?->id === auth()?->user()?->id ? $gravatar : null)
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn ($record) => $record === null)
+                    ->schema([
+                        Placeholder::make('id')
+                            ->content(fn ($record): ?int => $record?->id)
                             ->translateLabel(),
-                        TextInput::make('name')
-                            ->maxLength(255)
-                            ->required()
+                        Placeholder::make('created_at')
+                            ->content(fn ($record): ?string => $record?->created_at?->format(FilamentHelper::dateFormat()))
                             ->translateLabel(),
-                        TextInput::make('email')
-                            ->maxLength(255)
-                            ->email()
-                            ->unique(ignoreRecord: true)
-                            ->required()
+                        Placeholder::make('updated_at')
+                            ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans())
                             ->translateLabel(),
-                        Select::make('roles')
-                            ->relationship('roles', 'name')
-                            ->multiple()
-                            ->searchable()
-                            ->preload()
-                            ->createOptionForm(RoleResource::forms())
-                            ->translateLabel(),
-                        Select::make('permissions')
-                            ->relationship('permissions', 'name')
-                            ->multiple()
-                            ->searchable()
-                            ->preload()
-                            ->createOptionForm(PermissionResource::forms())
-                            ->translateLabel(),
-                        TextInput::make('password')
-                            ->maxLength(50)
-                            ->password()
-                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                            ->dehydrated(fn ($state) => filled($state))
-                            ->required(fn (string $context): bool => $context === 'create')
-                            ->same('password_confirmation')
-                            ->confirmed()
-                            ->minLength(8)
-                            ->translateLabel(),
-                        TextInput::make('password_confirmation')
-                            ->password()
-                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                            ->dehydrated(fn ($state) => filled($state))
-                            ->required(fn (string $context): bool => $context === 'create')
-                            ->minLength(8)
-                            ->translateLabel(),
-                    ])
-                    ->columns(2),
+                    ]),
             ]);
     }
 
@@ -153,6 +166,7 @@ class UserResource extends Resource
      */
     public static function table(Table $table): Table
     {
+        $dateFormat = FilamentHelper::dateFormat();
         return $table
             ->poll('60s')
             ->columns([
@@ -177,19 +191,19 @@ class UserResource extends Resource
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime($dateFormat)
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime($dateFormat)
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('deleted_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime($dateFormat)
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->translateLabel(),
@@ -216,7 +230,7 @@ class UserResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ]),
+                ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -253,10 +267,10 @@ class UserResource extends Resource
                 ->translateLabel(),
                 TextEntry::make('updated_at')
                 ->translateLabel()
-                ->dateTime(static::dateFormat()),
+                ->dateTime(self::dateFormat()),
                 TextEntry::make('created_at')
                 ->translateLabel()
-                ->dateTime(static::dateFormat()),
+                ->dateTime(self::dateFormat()),
             ])
             ->columns(1)
             ->inlineLabel();

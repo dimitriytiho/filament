@@ -2,27 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\GuardEnum;
 use App\Filament\Resources\PermissionResource\Pages;
 use App\Filament\Resources\PermissionResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
-use App\Helpers\Arr;
+use App\Helpers\FilamentHelper;
 use App\Models\Permission;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\EditAction;
 
 class PermissionResource extends Resource
 {
@@ -43,8 +39,7 @@ class PermissionResource extends Resource
      */
     public static function can(string $action, ?Model $record = null): bool
     {
-        return true;
-        //return parent::can($action, $record);
+        return auth()?->user()?->isAdmin();
     }
 
     /**
@@ -81,10 +76,37 @@ class PermissionResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
+
                 Section::make()
-                    ->schema(self::forms())
-                    ->columns(2),
+                    ->columnSpan(['lg' => 2])
+                    ->schema([
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->unique(ignoreRecord: true)
+                                    ->maxLength(255)
+                                    ->required()
+                                    ->translateLabel(),
+                            ]),
+                    ]),
+
+                Section::make()
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn ($record) => $record === null)
+                    ->schema([
+                        Placeholder::make('id')
+                            ->content(fn ($record): ?int => $record?->id)
+                            ->translateLabel(),
+                        Placeholder::make('created_at')
+                            ->content(fn ($record): ?string => $record?->created_at?->format(FilamentHelper::dateFormat()))
+                            ->translateLabel(),
+                        Placeholder::make('updated_at')
+                            ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans())
+                            ->translateLabel(),
+                    ]),
             ]);
     }
 
@@ -97,6 +119,7 @@ class PermissionResource extends Resource
      */
     public static function table(Table $table): Table
     {
+        $dateFormat = FilamentHelper::dateFormat();
         return $table
             ->poll('60s')
             ->columns([
@@ -108,13 +131,13 @@ class PermissionResource extends Resource
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime($dateFormat)
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime($dateFormat)
                     ->toggleable()
                     ->sortable()
                     ->toggledHiddenByDefault()
@@ -127,7 +150,7 @@ class PermissionResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ]),
+                ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

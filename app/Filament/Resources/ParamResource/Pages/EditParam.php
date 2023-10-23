@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ParamResource\Pages;
 
 use App\Filament\Resources\ParamResource;
 use App\Filament\Traits\ResourceActionTrait;
+use App\Helpers\FilamentHelper;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
@@ -19,7 +20,7 @@ class EditParam extends EditRecord
         return [
             Actions\DeleteAction::make(),
             Action::make('create')
-                ->url(self::getCreateUrl())
+                ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->translateLabel(),
         ];
     }

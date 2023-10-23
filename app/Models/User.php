@@ -87,9 +87,26 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
         )->withTimestamps();
     }
 
-    protected static function boot()
+    /**
+     * @return void
+     */
+    protected static function boot(): void
     {
         parent::boot();
+
+        // При создании элемента
+        static::creating(function ($model) {
+            // Удалить кэш
+            cache()->flush();
+        });
+
+        // При сохранении элемента
+        static::saving(function ($model) {
+            // Удалить кэш
+            cache()->flush();
+        });
+
+        // При удалении элемента
         static::deleting(function ($model) {
             // При мягком удалении не сработает
             if ($model->isForceDeleting()) {
@@ -97,11 +114,15 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
                 $model->roles()->delete();
                 $model->permissions()->delete();
             }
+
+            // Удалить кэш
+            cache()->flush();
         });
     }
 
     /**
      * Возвращает картинку gravatar.
+     *
      * @param string|null $email
      * @return string|null
      */

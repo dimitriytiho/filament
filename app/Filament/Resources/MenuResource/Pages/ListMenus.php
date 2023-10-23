@@ -27,7 +27,9 @@ class ListMenus extends ListRecords
                         ->success()
                         ->send();
                 }),*/
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->outlined()
+                ->translateLabel(),
         ];
     }
 }

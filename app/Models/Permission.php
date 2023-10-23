@@ -15,4 +15,32 @@ class Permission extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        // При создании элемента
+        static::creating(function ($model) {
+            // Удалить кэш
+            cache()->flush();
+        });
+
+        // При сохранении элемента
+        static::saving(function ($model) {
+            // Удалить кэш
+            cache()->flush();
+        });
+
+        // При удалении элемента
+        static::deleting(function ($model) {
+            // Удаление связанного элемента
+            $model->permissions()->delete();
+            // Удалить кэш
+            cache()->flush();
+        });
+    }
 }
