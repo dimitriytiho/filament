@@ -5,8 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ParamResource\Pages;
 use App\Filament\Resources\ParamResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
+use App\Helpers\FilamentHelper;
 use App\Models\Param;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Section;
@@ -29,25 +32,49 @@ class ParamResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
                 Section::make()
+                    ->columnSpan(['lg' => 2])
                     ->schema([
-                        TextInput::make('id')
-                            ->disabled()
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('id')
+                                    ->disabled()
+                                    ->translateLabel(),
+                                TextInput::make('key')
+                                    ->maxLength(40)
+                                    ->required()
+                                    ->unique(ignoreRecord: true)
+                                    ->translateLabel(),
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                Textarea::make('value')
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+                                KeyValue::make('data')
+                                    ->reorderable()
+                                    ->translateLabel(),
+                            ]),
+                    ]),
+
+                Section::make()
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn ($record) => $record === null)
+                    ->schema([
+                        Placeholder::make('id')
+                            ->content(fn ($record): ?int => $record?->id)
                             ->translateLabel(),
-                        TextInput::make('key')
-                            ->maxLength(40)
-                            ->required()
-                            ->unique(ignoreRecord: true)
+                        Placeholder::make('created_at')
+                            ->content(fn ($record): ?string => $record?->created_at?->format(FilamentHelper::dateFormat()))
                             ->translateLabel(),
-                        Textarea::make('value')
-                            ->maxLength(255)
+                        Placeholder::make('updated_at')
+                            ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans())
                             ->translateLabel(),
-                        KeyValue::make('data')
-                            ->reorderable()
-                            ->translateLabel(),
-                    ])
-                    ->columns(2),
+                    ]),
             ]);
     }
 
