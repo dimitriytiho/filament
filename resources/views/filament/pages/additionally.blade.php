@@ -1,5 +1,7 @@
 <x-filament-panels::page>
-    {{ $this->cacheDeleteAction }}
+    <div>
+        {{ $this->cacheDeleteAction }}
+    </div>
     {{--<form wire:submit.prevent="submit">
         {{ $this->form }}
         <button type="submit">Save</button>

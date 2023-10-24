@@ -51,15 +51,11 @@ class Additionally extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make(__('cache'))
+            Action::make(__('test'))
                 //->color('warning')
                 ->action(function (): void {
 
-                    /*cache()->flush();
-                    Artisan::call('view:clear');
-                    Artisan::call('route:clear');
-                    Artisan::call('config:clear');
-                    return redirect()->back();*/
+                    //
 
                     Notification::make()
                         ->title(__('completed_successfully'))
@@ -72,12 +68,15 @@ class Additionally extends Page
     public function cacheDeleteAction(): Action
     {
         return Action::make('cacheDelete')
-            //->icon('heroicon-m-x-mark')
-            ->color('danger')
+            ->icon('heroicon-m-x-mark')
+            ->color('success')
             ->requiresConfirmation()
             ->action(function () {
 
-                //
+                /*cache()->flush();
+                Artisan::call('view:clear');
+                Artisan::call('route:clear');
+                Artisan::call('config:clear');*/
 
                 Notification::make()
                     ->title(__('completed_successfully'))
