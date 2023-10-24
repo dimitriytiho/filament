@@ -6,7 +6,7 @@ use App\Filament\Resources\MenuResource\Pages;
 use App\Filament\Resources\MenuResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
-use App\Helpers\Tree;
+use App\Helpers\TreeHelper;
 use App\Models\Menu;
 use App\Models\MenuName;
 use Closure;
@@ -27,7 +27,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Forms\Get;
-use App\Helpers\Menu as MenuHelper;
+use App\Helpers\MenuHelper as MenuHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -96,7 +96,7 @@ class MenuResource extends Resource
                                         },
                                     ])
                                     ->options(function (Get $get, Menu $record) {
-                                        return Tree::select(MenuHelper::find(
+                                        return TreeHelper::select(MenuHelper::find(
                                             $get('menu_name_id'),
                                             false,
                                             MenuHelper::descendantsAndSelf($record)

@@ -25,4 +25,15 @@ class EditDummy extends EditRecord
                 ->translateLabel(),
         ];
     }
+
+    // Runs before the form fields are saved to the database.
+    protected function beforeSave(): void
+    {
+        //dd($this->getRecord()->slug);
+//        \Filament\Notifications\Notification::make()
+//            ->title('test')
+//            ->danger()
+//            ->send();
+//        $this->halt();
+    }
 }

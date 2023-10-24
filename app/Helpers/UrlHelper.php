@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class Url
+class UrlHelper
 {
     /**
      * @param string|null $url

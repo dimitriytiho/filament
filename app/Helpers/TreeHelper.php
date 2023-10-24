@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class Tree
+class TreeHelper
 {
     private const KEY = 'children';
     private const VAL = 'title';

@@ -5,7 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
-class Model
+class ModelHelper
 {
     /**
      *

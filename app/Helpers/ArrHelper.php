@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class Arr
+class ArrHelper
 {
     /**
      * Возвращает массив в который добавляет значения из ключей.

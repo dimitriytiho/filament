@@ -2,13 +2,13 @@
 
 namespace App\Helpers;
 
-use App\Models\Param as ParamModel;
+use App\Models\Param;
 use Illuminate\Support\Collection;
 
 /**
  * В видах можно вызывать без пространства имён.
  */
-class Param
+class ParamHelper
 {
     /**
      * @return Collection
@@ -16,7 +16,7 @@ class Param
     public static function all(): Collection
     {
         $cacheTime = config('filament.cache_time') ?: 600;
-        return cache()->remember('params_data', $cacheTime, fn () => ParamModel::select(['key', 'value', 'data'])->get()->keyBy('key'));
+        return cache()->remember('params_data', $cacheTime, fn () => Param::select(['key', 'value', 'data'])->get()->keyBy('key'));
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Helpers\Param;
+use App\Helpers\ParamHelper;
 use App\Services\Registry\Repository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;

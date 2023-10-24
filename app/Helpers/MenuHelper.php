@@ -8,7 +8,7 @@ use App\Models\Menu as MenuModel;
 /**
  * В видах можно вызывать без пространства имён.
  */
-class Menu
+class MenuHelper
 {
     /**
      * @param string|int|null $name

@@ -185,9 +185,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // Добавляем алиасы
-        'Param' => \App\Helpers\Param::class,
+        'Param' => \App\Helpers\ParamHelper::class,
         'Help' => \App\Helpers\Help::class,
-        'Menu' => \App\Helpers\Menu::class,
+        'Menu' => \App\Helpers\MenuHelper::class,
     ])->toArray(),
 
 ];

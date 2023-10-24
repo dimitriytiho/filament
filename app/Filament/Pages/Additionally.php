@@ -3,9 +3,6 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Traits\PageTrait;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;

@@ -2,10 +2,10 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Route as RouteFacade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-class Route
+class RouteHelper
 {
     /**
      *
@@ -17,7 +17,7 @@ class Route
      */
     public static function hasRoute(?string $routeName, string $parameter = null): ?string
     {
-        if (RouteFacade::has($routeName)) {
+        if (Route::has($routeName)) {
             return $parameter ? route($routeName, $parameter) : route($routeName);
         }
         return null;
