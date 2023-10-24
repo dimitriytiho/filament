@@ -24,6 +24,7 @@ class EditUser extends EditRecord
             Actions\ForceDeleteAction::make(),
             Action::make('create')
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
+                ->outlined()
                 ->translateLabel(),
         ];
     }

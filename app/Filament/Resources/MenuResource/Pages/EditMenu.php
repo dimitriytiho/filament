@@ -26,6 +26,7 @@ class EditMenu extends EditRecord
                 }),*/
             Action::make('create')
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
+                ->outlined()
                 ->translateLabel(),
         ];
     }

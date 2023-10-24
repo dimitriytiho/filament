@@ -21,6 +21,7 @@ class EditPermission extends EditRecord
             Actions\DeleteAction::make(),
             Action::make('create')
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
+                ->outlined()
                 ->translateLabel(),
         ];
     }
