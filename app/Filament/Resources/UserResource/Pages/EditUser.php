@@ -32,7 +32,7 @@ class EditUser extends EditRecord
                 ->using(function ($record) {
                     $data = $this->data;
                     // Unset password
-                    if (key_exists('password', $data) && empty(isset($data['password']))) {
+                    if (key_exists('password', $data) && empty($data['password'])) {
                         unset($data['password']);
                     }
                     $record->update($data);
