@@ -7,6 +7,7 @@ use App\Filament\Traits\ResourceActionTrait;
 use App\Helpers\FilamentHelper;
 use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\EditAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditUser extends EditRecord
@@ -26,12 +27,24 @@ class EditUser extends EditRecord
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->outlined()
                 ->translateLabel(),
+            EditAction::make()
+                ->label('Save')
+                ->using(function ($record) {
+                    $data = $this->data;
+                    // Unset password
+                    if (key_exists('password', $data) && empty(isset($data['password']))) {
+                        unset($data['password']);
+                    }
+                    $record->update($data);
+                    return $record;
+                })
+                ->translateLabel(),
         ];
     }
 
     // Runs after the form fields are saved to the database.
-    protected function afterSave(): void
+    /*protected function afterSave(): void
     {
         //dump($this->data ?? null);
-    }
+    }*/
 }

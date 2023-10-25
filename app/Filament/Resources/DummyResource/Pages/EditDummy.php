@@ -7,7 +7,9 @@ use App\Filament\Traits\ResourceActionTrait;
 use App\Helpers\FilamentHelper;
 use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Actions\EditAction;
 
 class EditDummy extends EditRecord
 {
@@ -22,6 +24,13 @@ class EditDummy extends EditRecord
             Action::make('create')
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->outlined()
+                ->translateLabel(),
+            EditAction::make()
+                ->label('Save')
+                ->using(function ($record) {
+                    $record->update($this->data);
+                    return $record;
+                })
                 ->translateLabel(),
         ];
     }
