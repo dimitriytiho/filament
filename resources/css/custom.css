@@ -1,0 +1,5 @@
+/* После написания стилей запустить команду: php artisan filament:assets */
+
+.fi-layout .fi-main.max-w-7xl {
+    max-width: none;
+}

@@ -20,6 +20,8 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 
@@ -27,6 +29,9 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        FilamentAsset::register([
+            Css::make('custom-stylesheet', __DIR__ . '/../../../resources/css/custom.css'), // php artisan filament:assets
+        ]);
         $color = Color::Blue;
         $hex = $this->getHexFromRGB($color[600] ?? null);
         $slug = config('filament.slug', 'admin');
@@ -60,7 +65,7 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentProgressbarPlugin::make()->color($hex),
             ])
-            //->sidebarCollapsibleOnDesktop()
+            ->sidebarCollapsibleOnDesktop()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->middleware([
                 EncryptCookies::class,
