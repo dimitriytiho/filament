@@ -107,6 +107,7 @@ class UserResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->createOptionForm(RoleResource::forms())
+                                    ->createOptionAction(fn ($action) => $action->label(__('Create')))
                                     ->translateLabel(),
                                 Select::make('permissions')
                                     ->relationship('permissions', 'name')
@@ -114,6 +115,7 @@ class UserResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->createOptionForm(PermissionResource::forms())
+                                    ->createOptionAction(fn ($action) => $action->label(__('Create')))
                                     ->translateLabel(),
                             ]),
 

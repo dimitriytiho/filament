@@ -55,10 +55,6 @@ class PermissionResource extends Resource
     public static function forms(): array
     {
         return [
-            TextInput::make('id')
-                ->disabled()
-                ->visible((bool) request()->segment(3))
-                ->translateLabel(),
             TextInput::make('name')
                 ->unique(ignoreRecord: true)
                 ->maxLength(255)
@@ -84,13 +80,7 @@ class PermissionResource extends Resource
                     ->schema([
 
                         Grid::make()
-                            ->schema([
-                                TextInput::make('name')
-                                    ->unique(ignoreRecord: true)
-                                    ->maxLength(255)
-                                    ->required()
-                                    ->translateLabel(),
-                            ]),
+                            ->schema(self::forms()),
                     ]),
 
                 Section::make()

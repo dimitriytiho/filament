@@ -56,9 +56,6 @@ class RoleResource extends Resource
     public static function forms(): array
     {
         return [
-            TextInput::make('id')
-                ->disabled()
-                ->translateLabel(),
             TextInput::make('name')
                 ->maxLength(255)
                 ->unique(ignoreRecord: true)
@@ -91,20 +88,7 @@ class RoleResource extends Resource
                     ->schema([
 
                         Grid::make()
-                            ->schema([
-                                TextInput::make('name')
-                                    ->maxLength(255)
-                                    ->unique(ignoreRecord: true)
-                                    ->required()
-                                    ->translateLabel(),
-                                Select::make('permissions')
-                                    ->relationship('permissions', 'name')
-                                    ->multiple()
-                                    ->searchable()
-                                    ->preload()
-                                    ->createOptionForm(PermissionResource::forms())
-                                    ->translateLabel(),
-                            ]),
+                            ->schema(self::forms()),
                     ]),
 
                 Section::make()
