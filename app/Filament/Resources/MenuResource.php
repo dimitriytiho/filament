@@ -318,7 +318,7 @@ class MenuResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ]),
+                ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

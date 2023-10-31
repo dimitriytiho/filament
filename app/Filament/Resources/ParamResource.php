@@ -91,8 +91,9 @@ class ParamResource extends Resource
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('value')
-                    ->translateLabel()
-                    ->limit(40),
+                    ->tooltip(fn ($record): string => $record->value)
+                    ->limit(40)
+                    ->translateLabel(),
                 TextColumn::make('updated_at')
                     ->dateTime(static::dateFormat())
                     ->toggleable()
@@ -113,7 +114,7 @@ class ParamResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ]),
+                ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
