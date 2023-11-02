@@ -22,6 +22,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -167,6 +168,9 @@ class DummyResource extends Resource
                     ->translateLabel(),
             ])
             ->filters([
+                TernaryFilter::make('active')
+                    ->placeholder(__('all'))
+                    ->translateLabel(),
                 TrashedFilter::make(),
             ])
             ->actions([
