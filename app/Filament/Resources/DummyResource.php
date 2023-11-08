@@ -67,7 +67,7 @@ class DummyResource extends Resource
                                         Action::make('create')
                                             //->disabled($form->getOperation() === 'create')
                                             ->label(__('turn_into_link'))
-                                            ->icon('heroicon-m-plus')
+                                            ->icon('heroicon-s-arrows-right-left')
                                             ->action(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
                                     //->url('/admin/files/create')
                                     //->openUrlInNewTab()
