@@ -40,6 +40,17 @@ class AdminPanelProvider extends PanelProvider
             ->id($slug)
             ->path($slug)
             ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+            ->authGuard('web')
+
+            // Ссылка на аккаунт
+            ->profile(EditProfile::class)
+            /*->userMenuItems([
+                'profile' => MenuItem::make()->url(fn (): string => route("filament.{$slug}.resources.users.edit", auth()->id()))
+            ])*/
+
             ->colors([
                 'primary' => $color,
             ])
@@ -80,10 +91,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            // Ссылка на аккаунт
-            ->userMenuItems([
-                'profile' => MenuItem::make()->url(fn (): string => route("filament.{$slug}.resources.users.edit", filament()->auth()->user()->getAuthIdentifier()))
             ]);
     }
 
