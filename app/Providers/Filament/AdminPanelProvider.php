@@ -22,6 +22,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Support\Facades\Blade;
 use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 
@@ -36,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
         $hex = $this->getHexFromRGB($color[600] ?? null);
         $slug = config('filament.slug', 'admin');
         return $panel
+            ->domain(config('app.url'))
             ->default()
             ->id($slug)
             ->path($slug)
@@ -68,6 +70,10 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+            /*->renderHook(
+                'panels::body.start',
+                fn (): string => Blade::render('filament.inc.body_start'),
+            )*/
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 //Widgets\AccountWidget::class,
