@@ -53,9 +53,6 @@ class MenuResource extends Resource
 
                         Grid::make()
                             ->schema([
-                                TextInput::make('id')
-                                    ->disabled()
-                                    ->translateLabel(),
                                 Select::make('menu_name_id')
                                     ->relationship('menuName', 'name')
                                     ->searchable()
@@ -65,20 +62,6 @@ class MenuResource extends Resource
                                     ->translateLabel()
                                     ->live()
                                     ->createOptionForm(MenuNameResource::forms()),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
-                                TextInput::make('title')
-                                    ->maxLength(255)
-                                    ->translateLabel(),
-                                TextInput::make('link')
-                                    ->maxLength(255)
-                                    ->translateLabel(),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
                                 Select::make('parent_id')
                                     ->label('Parent')
                                     ->rules([
@@ -95,7 +78,7 @@ class MenuResource extends Resource
                                             }
                                         },
                                     ])
-                                    ->options(function (Get $get, Menu $record) {
+                                    ->options(function (Get $get, ?Menu $record) {
                                         return TreeHelper::select(MenuHelper::find(
                                             $get('menu_name_id'),
                                             false,
@@ -104,11 +87,15 @@ class MenuResource extends Resource
                                     })
                                     ->searchable()
                                     ->translateLabel(),
-                                TextInput::make('sort')
-                                    ->integer()
-                                    ->minValue(0)
-                                    ->maxValue(65535)
-                                    ->default(5000)
+                            ]),
+
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('title')
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+                                TextInput::make('link')
+                                    ->maxLength(255)
                                     ->translateLabel(),
                             ]),
 
@@ -127,11 +114,21 @@ class MenuResource extends Resource
                                 TextInput::make('target')
                                     ->maxLength(255)
                                     ->translateLabel(),
-//                                Select::make('image')
-//                                    ->options([])
-//                                    ->searchable()
-//                                    ->translateLabel(),
+                                TextInput::make('sort')
+                                    ->integer()
+                                    ->minValue(0)
+                                    ->maxValue(65535)
+                                    ->default(5000)
+                                    ->translateLabel(),
                             ]),
+
+                        /*Grid::make()
+                            ->schema([
+                                Select::make('image')
+                                    ->options([])
+                                    ->searchable()
+                                    ->translateLabel(),
+                            ]),*/
 
                         Grid::make()
                             ->schema([
@@ -273,12 +270,19 @@ class MenuResource extends Resource
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('link')
+                    ->limit(40)
+                    ->copyable()
                     ->searchable()
                     ->sortable()
                     ->translateLabel(),
                 IconColumn::make('active')
                     ->boolean()
                     ->toggleable()
+                    ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('menuName.name')
+                    ->label('Menu name')
+                    ->searchable()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('parent_id')

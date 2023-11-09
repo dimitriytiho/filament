@@ -18,8 +18,11 @@ class DatabaseSeeder extends Seeder
             UserRoleSeeder::class,
         ]);
 
-        if (env('APP_ENV') !== 'production') {
+        if (!app()->environment('production')) {
             Menu::factory(40)->create();
+            // Для запуска в консоли:
+            // php artisan tinker
+            // \App\Models\Menu::factory(40)->create()
         }
 
         // \App\Models\User::factory(10)->create();

@@ -24,7 +24,7 @@ class MenuHelper
                     $query->whereNotIn('id', $descendantsId);
                 }
                 if ($active) {
-                    $query->where('active', '1');
+                    $query->where('active', true);
                 }
                 $query->orderBy('sort', 'desc');
             }])
@@ -39,9 +39,9 @@ class MenuHelper
      * @param string|int|null $id
      * @param bool $active
      * @param array $descendantsId - исключаем потомков.
-     * @return array|null
+     * @return array
      */
-    public static function find(string|int|null $id, bool $active = true, array $descendantsId = []): ?array
+    public static function find(string|int|null $id, bool $active = true, array $descendantsId = []): array
     {
         return MenuName::where('id', $id)
             ->with(['menus' => function ($query) use ($active, $descendantsId) {
@@ -49,7 +49,7 @@ class MenuHelper
                     $query->whereNotIn('id', $descendantsId);
                 }
                 if ($active) {
-                    $query->where('active', '1');
+                    $query->where('active', true);
                 }
                 $query->orderBy('sort', 'desc');
             }])
@@ -60,13 +60,16 @@ class MenuHelper
     }
 
     /**
-     * Возвращает все потомков, которых нельзя выбрать в качестве родителя.
+     * Возвращает всех потомков, которых нельзя выбрать в качестве родителя.
      *
-     * @param MenuModel $menu
-     * @return array|null
+     * @param MenuModel|null $menu
+     * @return array
      */
-    public static function descendantsAndSelf(MenuModel $menu): ?array
+    public static function descendantsAndSelf(?MenuModel $menu): array
     {
-        return $menu->descendantsAndSelf($menu->id)?->pluck('id')?->toArray();
+        if ($menu) {
+            return $menu->descendantsAndSelf($menu->id)?->pluck('id')?->toArray();
+        }
+        return [];
     }
 }

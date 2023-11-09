@@ -6,6 +6,10 @@ use App\Models\MenuName;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
+ * Для запуска в консоли:
+ * php artisan tinker
+ * \App\Models\Menu::factory(40)->create()
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Menu>
  */
 class MenuFactory extends Factory
