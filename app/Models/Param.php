@@ -23,8 +23,23 @@ class Param extends Model
     protected static function boot(): void
     {
         parent::boot();
+
+        // При создании элемента
+        static::creating(function ($model) {
+            // Удалить кэш
+            cache()->flush();
+        });
+
+        // При сохранении элемента
         static::saving(function ($model) {
-            cache()->forget($model->getTable() . '_*');
+            // Удалить кэш
+            cache()->flush();
+        });
+
+        // При удалении элемента
+        static::deleting(function ($model) {
+            // Удалить кэш
+            cache()->flush();
         });
     }
 }

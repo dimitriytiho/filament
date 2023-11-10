@@ -123,7 +123,6 @@ class DummyResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $dateFormat = FilamentHelper::dateFormat();
         return $table
             /*->query(function (User $model) {
                 return $model->where('user_id', filament()?->auth()?->user()?->getAuthIdentifier());
@@ -131,6 +130,8 @@ class DummyResource extends Resource
             ->poll('60s')
             ->columns([
                 TextColumn::make('id')
+                    ->badge()
+                    ->color('gray')
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('title')
@@ -138,10 +139,13 @@ class DummyResource extends Resource
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('slug')
+                    ->color('gray')
                     ->searchable()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('sort')
+                    ->badge()
+                    ->color('gray')
                     ->sortable()
                     ->translateLabel(),
                 IconColumn::make('active')
@@ -150,19 +154,25 @@ class DummyResource extends Resource
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
-                    ->dateTime($dateFormat)
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
-                    ->dateTime($dateFormat)
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('deleted_at')
-                    ->dateTime($dateFormat)
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->translateLabel(),

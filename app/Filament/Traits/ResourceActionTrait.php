@@ -17,11 +17,6 @@ trait ResourceActionTrait
         return __("filament-panels::resources/pages/{$action}-record.title", ['label' => $this->getRecordTitle()]);
     }
 
-    public static function getCreateUrl(): string
-    {
-        return route('filament.' . self::getSlug() . '.resources.' . self::getTable() . '.create');
-    }
-
     public static function getTable(): string
     {
         return self::$resource::$table;

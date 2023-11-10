@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\TreeHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,8 +46,34 @@ class Menu extends Model
     protected static function boot(): void
     {
         parent::boot();
+
+
+        // При создании элемента
+        static::creating(function ($model) {
+
+            // Выключить или включить всех потомков, в зависимости от статуса родителя.
+            TreeHelper::descendantsActive($model);
+
+            // Удалить кэш
+            cache()->flush();
+        });
+
+
+        // При сохранении элемента
         static::saving(function ($model) {
-            cache()->forget($model->getTable() . '_*');
+
+            // Выключить или включить всех потомков, в зависимости от статуса родителя.
+            TreeHelper::descendantsActive($model);
+
+            // Удалить кэш
+            cache()->flush();
+        });
+
+
+        // При удалении элемента
+        static::deleting(function ($model) {
+            // Удалить кэш
+            cache()->flush();
         });
     }
 }

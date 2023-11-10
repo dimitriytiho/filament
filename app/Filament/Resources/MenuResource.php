@@ -273,6 +273,8 @@ class MenuResource extends Resource
             ->poll('60s')
             ->columns([
                 TextColumn::make('id')
+                    ->badge()
+                    ->color('gray')
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('title')
@@ -281,6 +283,8 @@ class MenuResource extends Resource
                     ->translateLabel(),
                 TextColumn::make('link')
                     ->limit(40)
+                    //->wrap()
+                    ->color('gray')
                     ->copyable()
                     ->searchable()
                     ->sortable()
@@ -292,30 +296,54 @@ class MenuResource extends Resource
                     ->translateLabel(),
                 TextColumn::make('menuName.name')
                     ->label('Menu name')
+                    ->badge()
+                    ->color('warning')
                     ->searchable()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('parent_id')
                     ->label('Parent')
-                    //->badge()
-                    ->color('gray')
+                    /*->state(function () {
+                        return '...';
+                    })*/
+                    ->formatStateUsing(function (?int $state, ?Menu $record) {
+                        $title = $record?->menus?->title;
+                        if ($title) {
+                            $title = ' ' . $title;
+                        }
+                        return $state . $title;
+                    })
+                    ->badge()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('sort')
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
-                    ->dateTime(static::dateFormat())
+                    ->badge()
+                    ->color('gray')
+                    ->dateTime(FilamentHelper::dateFormat())
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
-                    ->dateTime(static::dateFormat())
+                    ->badge()
+                    ->color('gray')
+                    ->dateTime(FilamentHelper::dateFormat())
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
+                    ->translateLabel(),
+                TextColumn::make('deleted_at')
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
                     ->translateLabel(),
             ])
             ->filters([

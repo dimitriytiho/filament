@@ -117,11 +117,12 @@ class RoleResource extends Resource
      */
     public static function table(Table $table): Table
     {
-        $dateFormat = FilamentHelper::dateFormat();
         return $table
             ->poll('60s')
             ->columns([
                 TextColumn::make('id')
+                    ->badge()
+                    ->color('gray')
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('name')
@@ -129,15 +130,21 @@ class RoleResource extends Resource
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('permissions.name')
-                    ->sortable(),
+                    ->badge()
+                    ->sortable()
+                    ->translateLabel(),
                 TextColumn::make('updated_at')
-                    ->dateTime($dateFormat)
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
-                    ->dateTime($dateFormat)
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()

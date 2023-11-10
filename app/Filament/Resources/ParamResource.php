@@ -84,6 +84,8 @@ class ParamResource extends Resource
             ->poll('60s')
             ->columns([
                 TextColumn::make('id')
+                    ->badge()
+                    ->color('gray')
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('key')
@@ -95,13 +97,17 @@ class ParamResource extends Resource
                     ->limit(40)
                     ->translateLabel(),
                 TextColumn::make('updated_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
-                    ->dateTime(static::dateFormat())
+                    ->dateTime(FilamentHelper::dateFormat())
+                    ->badge()
+                    ->color('gray')
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()

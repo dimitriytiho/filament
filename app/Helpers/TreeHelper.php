@@ -27,6 +27,26 @@ class TreeHelper
     }
 
     /**
+     * Выключить или включить всех потомков, в зависимости от статуса родителя.
+     * Модель должна иметь колонку active!
+     *
+     * @param object|null $model
+     * @return void
+     */
+    public static function descendantsActive(?object $model): void
+    {
+        if ($model) {
+            $active = (bool) $model->active;
+            $model->descendants->each(function ($item) use ($active) {
+                if (!$active === (bool) $item->active) {
+                    $item->active = $active;
+                    $item->save();
+                }
+            });
+        }
+    }
+
+    /**
      * Return tree for select
      *
      * @param array $tree
@@ -42,7 +62,7 @@ class TreeHelper
             $id = $item['id'] ?? null;
             $children = $item[self::KEY] ?? [];
             $val = $item[self::VAL] ?? null;
-            $options[(string) $id] = $tab . $val . ' ' . $id;
+            $options[(string) $id] = $tab . $id . ' ' . $val;
             if ($children) {
                 $optionsChildren = self::selectTreeLoop($children, $tab . self::TAB, $options);
                 $options += array_diff($optionsChildren, $options);

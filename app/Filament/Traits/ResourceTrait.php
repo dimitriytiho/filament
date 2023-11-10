@@ -17,19 +17,4 @@ trait ResourceTrait
     {
 
     }*/
-
-    public static function user(): ?User
-    {
-        return auth()->check() ? auth()->user() : null;
-    }
-
-    public static function dateFormat(): ?string
-    {
-        return config('filament.date_format');
-    }
-
-    public static function cacheTime(): ?string
-    {
-        return config('filament.cache_time') ?: 3600; // second
-    }
 }
