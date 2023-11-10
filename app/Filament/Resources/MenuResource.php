@@ -12,8 +12,8 @@ use App\Models\MenuName;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -78,12 +78,25 @@ class MenuResource extends Resource
                                             }
                                         },
                                     ])
-                                    ->options(function (Get $get, ?Menu $record) {
-                                        return TreeHelper::select(MenuHelper::find(
+                                    ->options(function (Get $get) {
+                                        return TreeHelper::treeForSelect(MenuHelper::find(
                                             $get('menu_name_id'),
                                             false,
-                                            MenuHelper::descendantsAndSelf($record)
+                                            //MenuHelper::descendantsAndSelf($record)
                                         ));
+                                    })
+                                    ->disableOptionWhen(function (string $value, ?Menu $record) {
+                                        // Получаем родителей
+                                        //$ancestors = $record?->ancestors?->pluck('id');
+                                        // Получаем потомков
+                                        $descendants = $record?->descendants?->pluck('id');
+                                        // Добавляем id текущей записи
+                                        $id = $record?->id;
+                                        if ($id) {
+                                            $descendants->push($id);
+                                        }
+                                        // Выключаем option, которые равны id потомкам или текущему id
+                                        return $descendants?->contains($value);
                                     })
                                     ->searchable()
                                     ->translateLabel(),
@@ -141,11 +154,8 @@ class MenuResource extends Resource
                                         'bulletList',
                                     ])
                                     ->translateLabel(),
-                                Repeater::make('attrs')
-                                    ->schema([
-                                        TextInput::make('attr')
-                                            ->translateLabel(),
-                                    ])
+                                KeyValue::make('attrs')
+                                    ->reorderable()
                                     ->translateLabel(),
                             ]),
                     ]),

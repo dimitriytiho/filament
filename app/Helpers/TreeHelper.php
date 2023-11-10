@@ -32,11 +32,11 @@ class TreeHelper
      * @param array $tree
      * @return array
      */
-    public static function select(array $tree): array
+    public static function treeForSelect(array $tree): array
     {
-        return self::selectTree($tree);
+        return self::selectTreeLoop($tree);
     }
-    private static function selectTree(array $tree, string $tab = '', array $options = []): array
+    private static function selectTreeLoop(array $tree, string $tab = '', array $options = []): array
     {
         foreach ($tree as $item) {
             $id = $item['id'] ?? null;
@@ -44,7 +44,7 @@ class TreeHelper
             $val = $item[self::VAL] ?? null;
             $options[(string) $id] = $tab . $val . ' ' . $id;
             if ($children) {
-                $optionsChildren = self::selectTree($children, $tab . self::TAB, $options);
+                $optionsChildren = self::selectTreeLoop($children, $tab . self::TAB, $options);
                 $options += array_diff($optionsChildren, $options);
             }
         }
