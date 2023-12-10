@@ -71,6 +71,8 @@ services:
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        command:
+            - '--skip-log-bin'
         volumes:
             - 'sail-mysql:/var/lib/mysql'
             - './docker/mysql/dumps:/dumps:Z'
