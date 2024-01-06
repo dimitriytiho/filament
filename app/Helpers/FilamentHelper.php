@@ -12,7 +12,7 @@ class FilamentHelper
      */
     public static function getSlug(): string
     {
-        return config('filament.slug') ?: 'admin';
+        return config('filament.slug', 'admin');
     }
 
     /**
@@ -20,7 +20,7 @@ class FilamentHelper
      */
     public static function dateFormat(): string
     {
-        return config('filament.date_format') ?: 'd.m.Y H:i';
+        return config('filament.date_format', 'd.m.Y H:i');
     }
 
     /**
@@ -28,7 +28,7 @@ class FilamentHelper
      */
     public static function cacheTime(): string|int
     {
-        return config('filament.cache_time') ?: 600; // seconds
+        return config('filament.cache_time', 600); // seconds
     }
 
     /**

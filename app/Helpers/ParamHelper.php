@@ -15,7 +15,7 @@ class ParamHelper
      */
     public static function all(): Collection
     {
-        $cacheTime = config('filament.cache_time') ?: 600;
+        $cacheTime = config('filament.cache_time', 600);
         return cache()->remember('params_data', $cacheTime, fn () => Param::select(['key', 'value', 'data'])->get()->keyBy('key'));
     }
 
