@@ -5,13 +5,11 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Pages\Auth\EditProfile;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -22,8 +20,10 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
-use Illuminate\Support\Facades\Blade;
+use Filament\Widgets;
+use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationItem;
+use Illuminate\Support\Facades\Blade;
 use Filament\Pages\Dashboard;
 
 class AdminPanelProvider extends PanelProvider
@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             Css::make('custom-stylesheet', __DIR__ . '/../../../resources/css/custom.css'), // php artisan filament:assets
         ]);
         $color = Color::Blue;
-        $hex = $this->getHexFromRGB($color[600] ?? null);
+        $rgb = 'rgb(' . $color[600] . ')';
         $slug = config('filament.slug', 'admin');
         return $panel
             ->domain(config('app.url'))
@@ -80,7 +80,7 @@ class AdminPanelProvider extends PanelProvider
                 //Widgets\FilamentInfoWidget::class,
             ])
             ->plugins([
-                FilamentProgressbarPlugin::make()->color($hex),
+                FilamentProgressbarPlugin::make()->color($rgb),
             ])
             ->sidebarCollapsibleOnDesktop()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
@@ -98,18 +98,5 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
-    }
-
-    /**
-     * @param string|null $rgb
-     * @return string|null
-     */
-    private function getHexFromRGB(?string $rgb): ?string
-    {
-        $arr = explode(', ', $rgb);
-        if (!empty($arr[0]) && !empty($arr[1]) && !empty($arr[2])) {
-            return sprintf("#%02x%02x%02x", $arr[0], $arr[1], $arr[2]);
-        }
-        return null;
     }
 }
