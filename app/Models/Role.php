@@ -54,22 +54,27 @@ class Role extends Model implements ModelPermissionInterface
     {
         parent::boot();
 
+
         // При создании элемента
-        static::creating(function ($model) {
+        static::creating(function (self $model) {
+
             // Удалить кэш
             cache()->flush();
         });
 
         // При сохранении элемента
-        static::saving(function ($model) {
+        static::saving(function (self $model) {
+
             // Удалить кэш
             cache()->flush();
         });
 
         // При удалении элемента
-        static::deleting(function ($model) {
+        static::deleting(function (self $model) {
+
             // Удаление связанного элемента
             $model->permissions()->delete();
+
             // Удалить кэш
             cache()->flush();
         });

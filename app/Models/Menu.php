@@ -49,7 +49,7 @@ class Menu extends Model
 
 
         // При создании элемента
-        static::creating(function ($model) {
+        static::creating(function (self $model) {
 
             // Выключить или включить всех потомков, в зависимости от статуса родителя.
             TreeHelper::descendantsActive($model);
@@ -60,7 +60,7 @@ class Menu extends Model
 
 
         // При сохранении элемента
-        static::saving(function ($model) {
+        static::saving(function (self $model) {
 
             // Выключить или включить всех потомков, в зависимости от статуса родителя.
             TreeHelper::descendantsActive($model);
@@ -71,7 +71,7 @@ class Menu extends Model
 
 
         // При удалении элемента
-        static::deleting(function ($model) {
+        static::deleting(function (self $model) {
             // Удалить кэш
             cache()->flush();
         });
