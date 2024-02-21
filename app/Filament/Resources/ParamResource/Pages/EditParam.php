@@ -26,8 +26,8 @@ class EditParam extends EditRecord
                 ->translateLabel(),
             EditAction::make()
                 ->label('Save')
-                ->using(function ($record, array $data) {
-                    $record->update($data);
+                ->using(function ($record) {
+                    $record->update($this->data);
                     return $record;
                 })
                 ->translateLabel(),
