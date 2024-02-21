@@ -27,8 +27,8 @@ class EditDummy extends EditRecord
                 ->translateLabel(),
             EditAction::make()
                 ->label('Save')
-                ->using(function ($record) {
-                    $record->update($this->data);
+                ->using(function ($record, array $data) {
+                    $record->update($data);
                     return $record;
                 })
                 ->translateLabel(),
