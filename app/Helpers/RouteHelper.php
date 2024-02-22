@@ -31,15 +31,4 @@ class RouteHelper
     {
         return Str::contains(request()->path(), $str);
     }
-
-    /**
-     * @param string|null $domain
-     * @return string|false
-     */
-    public static function clearDomain(string|null $domain): string|false
-    {
-        $domain = str_replace(['https://', 'http://'], '', $domain);
-        $domain = strtok($domain, '/');
-        return strtok($domain, '?');
-    }
 }
