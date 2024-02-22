@@ -91,10 +91,12 @@ class ParamResource extends Resource
                 TextColumn::make('key')
                     ->searchable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('value')
                     ->tooltip(fn ($record): string => $record->value)
                     ->limit(40)
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
                     ->dateTime(FilamentHelper::dateFormat())
@@ -103,14 +105,15 @@ class ParamResource extends Resource
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
                     ->dateTime(FilamentHelper::dateFormat())
                     ->badge()
                     ->color('gray')
+                    ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault()
-                    ->sortable()
                     ->translateLabel(),
             ])
             ->filters([

@@ -280,6 +280,7 @@ class MenuResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('link')
                     ->limit(40)
@@ -288,11 +289,13 @@ class MenuResource extends Resource
                     ->copyable()
                     ->searchable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 IconColumn::make('active')
                     ->boolean()
                     ->toggleable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('menuName.name')
                     ->label('Menu name')
@@ -300,6 +303,7 @@ class MenuResource extends Resource
                     ->color('warning')
                     ->searchable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('parent_id')
                     ->label('Parent')
@@ -315,28 +319,30 @@ class MenuResource extends Resource
                     })
                     ->badge()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('sort')
                     ->badge()
                     ->color('gray')
                     ->toggleable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
                     ->badge()
                     ->color('gray')
                     ->dateTime(FilamentHelper::dateFormat())
+                    ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault()
-                    ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
                     ->badge()
                     ->color('gray')
                     ->dateTime(FilamentHelper::dateFormat())
+                    ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault()
-                    ->sortable()
                     ->translateLabel(),
                 TextColumn::make('deleted_at')
                     ->dateTime(FilamentHelper::dateFormat())

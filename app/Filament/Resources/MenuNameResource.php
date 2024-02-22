@@ -114,28 +114,30 @@ class MenuNameResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('sort')
                     ->badge()
                     ->color('gray')
                     ->toggleable()
                     ->sortable()
+                    ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')
                     ->dateTime(FilamentHelper::dateFormat())
                     ->badge()
                     ->color('gray')
+                    ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault()
-                    ->sortable()
                     ->translateLabel(),
                 TextColumn::make('created_at')
                     ->dateTime(FilamentHelper::dateFormat())
                     ->badge()
                     ->color('gray')
+                    ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault()
-                    ->sortable()
                     ->translateLabel(),
             ])
             ->filters([
