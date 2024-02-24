@@ -48,10 +48,6 @@ class ParamResource extends Resource
                                     ->required()
                                     ->unique(ignoreRecord: true)
                                     ->translateLabel(),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
                                 Textarea::make('value')
                                     ->maxLength(255)
                                     ->translateLabel(),

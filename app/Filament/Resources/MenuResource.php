@@ -13,8 +13,8 @@ use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -100,30 +100,18 @@ class MenuResource extends Resource
                                     })
                                     ->searchable()
                                     ->translateLabel(),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
                                 TextInput::make('title')
                                     ->maxLength(255)
                                     ->translateLabel(),
                                 TextInput::make('link')
                                     ->maxLength(255)
                                     ->translateLabel(),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
                                 TextInput::make('item')
                                     ->maxLength(255)
                                     ->translateLabel(),
                                 TextInput::make('class')
                                     ->maxLength(255)
                                     ->translateLabel(),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
                                 TextInput::make('target')
                                     ->maxLength(255)
                                     ->translateLabel(),
@@ -133,26 +121,24 @@ class MenuResource extends Resource
                                     ->maxValue(65535)
                                     ->default(5000)
                                     ->translateLabel(),
-                            ]),
-
-                        /*Grid::make()
-                            ->schema([
-                                Select::make('image')
+                                /*Select::make('image')
                                     ->options([])
                                     ->searchable()
-                                    ->translateLabel(),
-                            ]),*/
-
-                        Grid::make()
-                            ->schema([
-                                RichEditor::make('content')
-                                    ->disableToolbarButtons([
-                                        'attachFiles',
-                                        'blockquote',
-                                        'link',
-                                        'orderedList',
-                                        'bulletList',
-                                    ])
+                                    ->translateLabel(),*/
+                                MarkdownEditor::make('content') // Перевод строки \
+                                ->toolbarButtons([
+                                    'bold',
+                                    'italic',
+                                    'strike',
+                                    'link',
+                                    'heading',
+                                    'codeBlock',
+                                    'bulletList',
+                                    'orderedList',
+                                    'redo',
+                                    'table',
+                                    'undo',
+                                ])
                                     ->translateLabel(),
                                 KeyValue::make('attrs')
                                     ->reorderable()
@@ -216,13 +202,19 @@ class MenuResource extends Resource
                             ->maxValue(65535)
                             ->default(5000)
                             ->translateLabel(),
-                        RichEditor::make('content')
-                            ->disableToolbarButtons([
-                                'attachFiles',
-                                'blockquote',
+                        MarkdownEditor::make('body') // Перевод строки \
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'strike',
                                 'link',
-                                'orderedList',
+                                'heading',
+                                'codeBlock',
                                 'bulletList',
+                                'orderedList',
+                                'redo',
+                                'table',
+                                'undo',
                             ])
                             ->translateLabel(),
                         Repeater::make('attrs')

@@ -97,10 +97,6 @@ class UserResource extends Resource
                                     ->unique(ignoreRecord: true)
                                     ->required()
                                     ->translateLabel(),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
                                 Select::make('roles')
                                     ->relationship('roles', 'name')
                                     ->multiple()
@@ -117,10 +113,6 @@ class UserResource extends Resource
                                     ->createOptionForm(PermissionResource::forms())
                                     ->createOptionAction(fn ($action) => $action->label(__('Create')))
                                     ->translateLabel(),
-                            ]),
-
-                        Grid::make()
-                            ->schema([
                                 TextInput::make('password')
                                     ->maxLength(50)
                                     ->password()

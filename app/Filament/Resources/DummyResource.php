@@ -81,9 +81,6 @@ class DummyResource extends Resource
                                     ->maxLength(255)
                                     ->required()
                                     ->translateLabel(),
-                            ]),
-                        Grid::make()
-                            ->schema([
                                 TextInput::make('sort')
                                     ->integer()
                                     ->minValue(0)
