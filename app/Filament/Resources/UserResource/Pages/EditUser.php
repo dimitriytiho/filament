@@ -27,7 +27,7 @@ class EditUser extends EditRecord
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->outlined()
                 ->translateLabel(),
-            EditAction::make()
+            /*EditAction::make()
                 ->label('Save')
                 ->using(function ($record) {
                     $data = $this->data;
@@ -38,7 +38,7 @@ class EditUser extends EditRecord
                     $record->update($data);
                     return $record;
                 })
-                ->translateLabel(),
+                ->translateLabel(),*/
         ];
     }
 

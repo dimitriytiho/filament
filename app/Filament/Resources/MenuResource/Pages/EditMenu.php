@@ -20,22 +20,17 @@ class EditMenu extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-            /*Actions\EditAction::make()
-                ->using(function (Model $record, array $data): Model {
-                    $record->update($data);
-                    return $record;
-                }),*/
             Action::make('create')
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->outlined()
                 ->translateLabel(),
-            EditAction::make()
+            /*EditAction::make()
                 ->label('Save')
                 ->using(function ($record) {
                     $record->update($this->data);
                     return $record;
                 })
-                ->translateLabel(),
+                ->translateLabel(),*/
         ];
     }
 

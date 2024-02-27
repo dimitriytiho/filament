@@ -25,13 +25,13 @@ class EditDummy extends EditRecord
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->outlined()
                 ->translateLabel(),
-            EditAction::make()
+            /*EditAction::make()
                 ->label('Save')
                 ->using(function ($record) {
                     $record->update($this->data);
                     return $record;
                 })
-                ->translateLabel(),
+                ->translateLabel(),*/
         ];
     }
 
