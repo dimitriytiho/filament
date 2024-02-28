@@ -34,9 +34,6 @@ class ParamResource extends Resource
 
                         Grid::make()
                             ->schema([
-                                TextInput::make('id')
-                                    ->disabled()
-                                    ->translateLabel(),
                                 TextInput::make('key')
                                     ->maxLength(40)
                                     ->required()
@@ -81,10 +78,12 @@ class ParamResource extends Resource
                 TextColumn::make('key')
                     ->searchable()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('value')
-                    ->tooltip(fn ($record): string => $record->value)
+                    ->tooltip(fn ($record): ?string => $record->value)
                     ->limit(40)
                     ->toggleable()
                     ->translateLabel(),

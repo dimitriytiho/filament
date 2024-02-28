@@ -136,12 +136,16 @@ class DummyResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('slug')
                     ->color('gray')
                     ->searchable()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('sort')

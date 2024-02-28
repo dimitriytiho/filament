@@ -122,11 +122,15 @@ class RoleResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('permissions.name')
                     ->badge()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('updated_at')

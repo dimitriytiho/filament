@@ -260,6 +260,8 @@ class MenuResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('link')
@@ -269,6 +271,8 @@ class MenuResource extends Resource
                     ->copyable()
                     ->searchable()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 IconColumn::make('active')

@@ -119,6 +119,8 @@ class MenuNameResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
+                    ->limit(40)
+                    ->wrap()
                     ->toggleable()
                     ->translateLabel(),
                 TextColumn::make('sort')
