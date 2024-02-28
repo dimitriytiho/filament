@@ -2,22 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ParamResource\Pages;
-use App\Filament\Resources\ParamResource\RelationManagers;
+use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use Filament\Forms\Components\{Grid, KeyValue, MarkdownEditor, Placeholder, Section, Select, TextInput, Toggle};
+use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
+use Filament\Tables\Columns\{IconColumn, TextColumn};
+use Illuminate\Database\Eloquent\{Builder, SoftDeletingScope};
+use Filament\Forms\{Form, Get, Set};
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\Param;
-use Filament\Forms;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class ParamResource extends Resource
@@ -116,35 +110,58 @@ class ParamResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
                 ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->defaultSort('id', 'desc');
     }
 
-    public static function getRelations(): array
+    /*public static function getRelations(): array
     {
         return [
             //
         ];
-    }
+    }*/
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListParams::route('/'),
-            'create' => Pages\CreateParam::route('/create'),
-            'edit' => Pages\EditParam::route('/{record}/edit'),
+            'index' => ListDummies::route('/'),
+            'create' => CreateDummy::route('/create'),
+            'edit' => EditDummy::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
+
+    /**
+     * Добавить колонку в глобальный поиск.
+     *
+     * @return string[]
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['key'];
     }
 }

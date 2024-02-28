@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->index();
             $table->unsignedSmallInteger('sort')->default('5000')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

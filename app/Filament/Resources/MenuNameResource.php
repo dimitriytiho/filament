@@ -2,19 +2,26 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\MenuNameResource\Pages;
-use App\Filament\Resources\MenuNameResource\RelationManagers;
+use App\Filament\Resources\DummyResource\Pages\CreateDummy;
+use App\Filament\Resources\DummyResource\Pages\EditDummy;
+use App\Filament\Resources\DummyResource\Pages\ListDummies;
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\MenuName;
-use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -144,35 +151,58 @@ class MenuNameResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
                 ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->defaultSort('id', 'desc');
     }
 
-    public static function getRelations(): array
+    /*public static function getRelations(): array
     {
         return [
             //
         ];
-    }
+    }*/
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMenuNames::route('/'),
-            'create' => Pages\CreateMenuName::route('/create'),
-            'edit' => Pages\EditMenuName::route('/{record}/edit'),
+            'index' => ListDummies::route('/'),
+            'create' => CreateDummy::route('/create'),
+            'edit' => EditDummy::route('/{record}/edit'),
         ];
     }
+
+    /**
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
+
+    /**
+     * Добавить колонку в глобальный поиск.
+     *
+     * @return string[]
+     */
+    /*public static function getGloballySearchableAttributes(): array
+    {
+        return ['name'];
+    }*/
 }

@@ -2,23 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PermissionResource\Pages;
-use App\Filament\Resources\PermissionResource\RelationManagers;
+use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use Filament\Forms\Components\{Grid, Placeholder, Section, TextInput};
+use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\{Builder, SoftDeletingScope};
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\Permission;
-use Filament\Forms;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 
 class PermissionResource extends Resource
 {
@@ -143,35 +138,41 @@ class PermissionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
                 ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->defaultSort('id', 'desc');
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPermissions::route('/'),
-            'create' => Pages\CreatePermission::route('/create'),
-            'edit' => Pages\EditPermission::route('/{record}/edit'),
+            'index' => ListDummies::route('/'),
+            'create' => CreateDummy::route('/create'),
+            'edit' => EditDummy::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }

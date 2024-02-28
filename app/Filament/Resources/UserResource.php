@@ -2,28 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\Relations\UserRelation;
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use Filament\Forms\Components\{Grid, Placeholder, Section, Select, TextInput};
+use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\{Builder, SoftDeletingScope};
+use Filament\Forms\Form;
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\User;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Filters\{SelectFilter, TrashedFilter};
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Placeholder;
 use Illuminate\Support\HtmlString;
 
 class UserResource extends Resource
@@ -234,21 +227,20 @@ class UserResource extends Resource
                 TrashedFilter::make(),
             ])
             ->actions([
-                //Tables\Actions\ViewAction::make(),
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
                 ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->defaultSort('id', 'desc');
     }
@@ -284,19 +276,12 @@ class UserResource extends Resource
             ->inlineLabel();
     }*/
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => ListDummies::route('/'),
+            'create' => CreateDummy::route('/create'),
+            'edit' => EditDummy::route('/{record}/edit'),
         ];
     }
 

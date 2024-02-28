@@ -2,31 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DummyResource\Pages;
-use App\Filament\Resources\DummyResource\RelationManagers;
+use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use Filament\Forms\Components\{Grid, KeyValue, MarkdownEditor, Placeholder, Section, Select, TextInput, Toggle};
+use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
+use Filament\Tables\Columns\{IconColumn, TextColumn};
+use Illuminate\Database\Eloquent\{Builder, SoftDeletingScope};
+use Filament\Forms\{Form, Get, Set};
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\Dummy;
 use Closure;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 class DummyResource extends Resource
@@ -36,7 +26,7 @@ class DummyResource extends Resource
     protected static ?string $model = Dummy::class;
     public static ?string $table = 'dummies';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 50;
 
     /**
      * В левом меню показывать кол-во элементов в таблице.
@@ -112,7 +102,19 @@ class DummyResource extends Resource
                     ->columnSpan(['lg' => 3])
                     ->schema([
                         MarkdownEditor::make('body')
-                            ->toolbarButtons()
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'strike',
+                                'link',
+                                'heading',
+                                'codeBlock',
+                                'bulletList',
+                                'orderedList',
+                                'redo',
+                                'table',
+                                'undo',
+                            ])
                             ->translateLabel(),
                     ]),
             ]);
@@ -185,37 +187,37 @@ class DummyResource extends Resource
                 TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
                 ])->tooltip(__('Actions')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->defaultSort('id', 'desc');
     }
 
-    public static function getRelations(): array
+    /*public static function getRelations(): array
     {
         return [
             //
         ];
-    }
+    }*/
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDummies::route('/'),
-            'create' => Pages\CreateDummy::route('/create'),
-            'edit' => Pages\EditDummy::route('/{record}/edit'),
+            'index' => ListDummies::route('/'),
+            'create' => CreateDummy::route('/create'),
+            'edit' => EditDummy::route('/{record}/edit'),
         ];
     }
 

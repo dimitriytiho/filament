@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->boolean('active')->default(false)->index();
             $table->unsignedSmallInteger('sort')->default('5000')->nullable()->comment('max 65535');
+            $table->softDeletes();
             $table->timestamps();
 
             // For lazychaser/laravel-nestedset
