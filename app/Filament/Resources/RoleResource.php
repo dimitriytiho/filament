@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use App\Filament\Resources\RoleResource\Pages\{CreateRole, EditRole, ListRoles};
 use Filament\Forms\Components\{Grid, Placeholder, Section, Select, TextInput};
 use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
-use Filament\Tables\Columns\{IconColumn, TextColumn};
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\{Builder, SoftDeletingScope};
 use Filament\Forms\Form;
 use App\Filament\Traits\ResourceTrait;
@@ -171,9 +171,9 @@ class RoleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListDummies::route('/'),
-            'create' => CreateDummy::route('/create'),
-            'edit' => EditDummy::route('/{record}/edit'),
+            'index' => ListRoles::route('/'),
+            'create' => CreateRole::route('/create'),
+            'edit' => EditRole::route('/{record}/edit'),
         ];
     }
 

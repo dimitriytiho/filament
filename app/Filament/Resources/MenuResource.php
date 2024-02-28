@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use App\Filament\Resources\MenuResource\Pages\{CreateMenu, EditMenu, ListMenus};
 use Filament\Forms\Components\{Grid, KeyValue, MarkdownEditor, Placeholder, Section, Select, TextInput, Toggle};
 use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
 use Filament\Tables\Columns\{IconColumn, TextColumn};
@@ -371,9 +371,9 @@ class MenuResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListDummies::route('/'),
-            'create' => CreateDummy::route('/create'),
-            'edit' => EditDummy::route('/{record}/edit'),
+            'index' => ListMenus::route('/'),
+            'create' => CreateMenu::route('/create'),
+            'edit' => EditMenu::route('/{record}/edit'),
         ];
     }
 

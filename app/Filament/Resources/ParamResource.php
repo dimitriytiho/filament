@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
-use Filament\Forms\Components\{Grid, KeyValue, MarkdownEditor, Placeholder, Section, Select, TextInput, Toggle};
+use App\Filament\Resources\ParamResource\Pages\{CreateParam, EditParam, ListParams};
+use Filament\Forms\Components\{Grid, KeyValue, Placeholder, Section, TextInput, Textarea};
 use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
-use Filament\Tables\Columns\{IconColumn, TextColumn};
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\{Builder, SoftDeletingScope};
-use Filament\Forms\{Form, Get, Set};
+use Filament\Forms\Form;
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\Param;
@@ -138,9 +138,9 @@ class ParamResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListDummies::route('/'),
-            'create' => CreateDummy::route('/create'),
-            'edit' => EditDummy::route('/{record}/edit'),
+            'index' => ListParams::route('/'),
+            'create' => CreateParam::route('/create'),
+            'edit' => EditParam::route('/{record}/edit'),
         ];
     }
 

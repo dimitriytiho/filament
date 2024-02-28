@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use App\Filament\Resources\UserResource\Pages\{CreateUser, EditUser, ListUsers};
 use Filament\Forms\Components\{Grid, Placeholder, Section, Select, TextInput};
 use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
 use Filament\Tables\Columns\TextColumn;
@@ -279,9 +279,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListDummies::route('/'),
-            'create' => CreateDummy::route('/create'),
-            'edit' => EditDummy::route('/{record}/edit'),
+            'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 

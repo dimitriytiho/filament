@@ -2,9 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DummyResource\Pages\CreateDummy;
-use App\Filament\Resources\DummyResource\Pages\EditDummy;
-use App\Filament\Resources\DummyResource\Pages\ListDummies;
+use App\Filament\Resources\MenuNameResource\Pages\{CreateMenuName, EditMenuName, ListMenuNames};
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
 use App\Models\MenuName;
@@ -179,9 +177,9 @@ class MenuNameResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListDummies::route('/'),
-            'create' => CreateDummy::route('/create'),
-            'edit' => EditDummy::route('/{record}/edit'),
+            'index' => ListMenuNames::route('/'),
+            'create' => CreateMenuName::route('/create'),
+            'edit' => EditMenuName::route('/{record}/edit'),
         ];
     }
 

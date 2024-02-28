@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DummyResource\Pages\{CreateDummy, EditDummy, ListDummies};
+use App\Filament\Resources\PermissionResource\Pages\{CreatePermission, EditPermission, ListPermissions};
 use Filament\Forms\Components\{Grid, Placeholder, Section, TextInput};
 use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteAction, DeleteBulkAction, EditAction, ForceDeleteBulkAction, RestoreBulkAction};
 use Filament\Tables\Columns\TextColumn;
@@ -159,9 +159,9 @@ class PermissionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListDummies::route('/'),
-            'create' => CreateDummy::route('/create'),
-            'edit' => EditDummy::route('/{record}/edit'),
+            'index' => ListPermissions::route('/'),
+            'create' => CreatePermission::route('/create'),
+            'edit' => EditPermission::route('/{record}/edit'),
         ];
     }
 
