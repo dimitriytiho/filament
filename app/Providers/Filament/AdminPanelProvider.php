@@ -41,6 +41,8 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id($slug)
             ->path($slug)
+            ->brandName(config('app.name'))
+            ->favicon(asset('favicon.ico'))
             ->login()
             ->registration()
             ->passwordReset()
