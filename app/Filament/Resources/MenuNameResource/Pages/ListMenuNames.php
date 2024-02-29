@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\MenuNameResource\Pages;
 
 use App\Filament\Resources\MenuNameResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListMenuNames extends ListRecords
@@ -13,7 +13,7 @@ class ListMenuNames extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            CreateAction::make()
                 ->outlined()
                 ->translateLabel(),
         ];

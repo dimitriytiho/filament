@@ -5,10 +5,9 @@ namespace App\Filament\Resources\ParamResource\Pages;
 use App\Filament\Resources\ParamResource;
 use App\Filament\Traits\ResourceActionTrait;
 use App\Helpers\FilamentHelper;
-use Filament\Actions;
 use Filament\Actions\Action;
-use Filament\Actions\EditAction;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Actions\{DeleteAction, EditAction, ForceDeleteAction, RestoreAction};
 
 class EditParam extends EditRecord
 {
@@ -19,7 +18,9 @@ class EditParam extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
+            RestoreAction::make(),
+            ForceDeleteAction::make(),
             Action::make('create')
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->outlined()

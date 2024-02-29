@@ -5,10 +5,9 @@ namespace App\Filament\Resources\MenuResource\Pages;
 use App\Filament\Resources\MenuResource;
 use App\Filament\Traits\ResourceActionTrait;
 use App\Helpers\FilamentHelper;
-use Filament\Actions;
 use Filament\Actions\Action;
-use Filament\Actions\EditAction;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Actions\{DeleteAction, EditAction, ForceDeleteAction, RestoreAction};
 
 class EditMenu extends EditRecord
 {
@@ -19,7 +18,9 @@ class EditMenu extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
+            RestoreAction::make(),
+            ForceDeleteAction::make(),
             Action::make('create')
                 ->url(FilamentHelper::getUrl(self::getTable(), 'create'))
                 ->outlined()
@@ -34,9 +35,9 @@ class EditMenu extends EditRecord
         ];
     }
 
-    protected function afterFormValidated(): void
+    /*protected function afterFormValidated(): void
     {
-        /*if ($this?->data) {
+        if ($this?->data) {
 
             // Нельзя сохранить в $parentId свой id
             $id = $this?->data['id'] ?? null;
@@ -47,6 +48,6 @@ class EditMenu extends EditRecord
                 $this->record->update($this->data);
             }
             dd(1);
-        }*/
-    }
+        }
+    }*/
 }
