@@ -17,32 +17,30 @@ class Dummy extends Model
         'updated_at',
     ];
 
+    /**
+     * @return void
+     */
     protected static function boot(): void
     {
         parent::boot();
 
-
         // При создании элемента
 //        static::creating(function (self $model) {
 //
-//            // Удалить кэш
-//            cache()->flush();
 //        });
-
 
         // При сохранении элемента
-//        static::saving(function (self $model) {
-//
-//            // Удалить кэш
-//            cache()->flush();
-//        });
+        static::saving(function (self $model) {
 
+            // Удалить кэш
+            cache()->flush();
+        });
 
         // При удалении элемента
-//        static::deleting(function (self $model) {
-//
-//            // Удалить кэш
-//            cache()->flush();
-//        });
+        static::deleting(function (self $model) {
+
+            // Удалить кэш
+            cache()->flush();
+        });
     }
 }

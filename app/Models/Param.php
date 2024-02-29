@@ -21,17 +21,12 @@ class Param extends Model
         'data' => 'json',
     ];
 
+    /**
+     * @return void
+     */
     protected static function boot(): void
     {
         parent::boot();
-
-
-        // При создании элемента
-        static::creating(function (self $model) {
-
-            // Удалить кэш
-            cache()->flush();
-        });
 
         // При сохранении элемента
         static::saving(function (self $model) {

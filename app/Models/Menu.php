@@ -43,21 +43,12 @@ class Menu extends Model
         return $this->belongsTo(MenuName::class);
     }
 
+    /**
+     * @return void
+     */
     protected static function boot(): void
     {
         parent::boot();
-
-
-        // При создании элемента
-        static::creating(function (self $model) {
-
-            // Выключить или включить всех потомков, в зависимости от статуса родителя.
-            TreeHelper::descendantsActive($model);
-
-            // Удалить кэш
-            cache()->flush();
-        });
-
 
         // При сохранении элемента
         static::saving(function (self $model) {
@@ -69,9 +60,9 @@ class Menu extends Model
             cache()->flush();
         });
 
-
         // При удалении элемента
         static::deleting(function (self $model) {
+
             // Удалить кэш
             cache()->flush();
         });

@@ -27,4 +27,26 @@ class MenuName extends Model
     {
         return $this->hasMany(Menu::class);
     }
+
+    /**
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        // При сохранении элемента
+        static::saving(function (self $model) {
+
+            // Удалить кэш
+            cache()->flush();
+        });
+
+        // При удалении элемента
+        static::deleting(function (self $model) {
+
+            // Удалить кэш
+            cache()->flush();
+        });
+    }
 }

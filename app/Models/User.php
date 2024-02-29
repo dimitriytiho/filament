@@ -94,13 +94,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
     {
         parent::boot();
 
-        // При создании элемента
-        static::creating(function (self $model) {
-
-            // Удалить кэш
-            cache()->flush();
-        });
-
         // При сохранении элемента
         static::saving(function (self $model) {
 
@@ -113,6 +106,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
 
             // При мягком удалении не сработает
             if ($model->isForceDeleting()) {
+
                 // Удаление связанного элемента
                 $model->roles()->delete();
                 $model->permissions()->delete();
