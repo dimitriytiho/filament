@@ -109,6 +109,7 @@ class UserResource extends Resource
                                 TextInput::make('password')
                                     ->maxLength(50)
                                     ->password()
+                                    ->revealable()
                                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                                     ->dehydrated(fn ($state) => filled($state))
                                     ->required(fn (string $context): bool => $context === 'create')
@@ -118,6 +119,7 @@ class UserResource extends Resource
                                     ->translateLabel(),
                                 TextInput::make('password_confirmation')
                                     ->password()
+                                    ->revealable()
                                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                                     ->dehydrated(fn ($state) => filled($state))
                                     ->required(fn (string $context): bool => $context === 'create')
