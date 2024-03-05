@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\FileHelper;
+use App\Helpers\RouteHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
@@ -21,27 +21,33 @@ class File extends Model
     /**
      * @return void
      */
-    protected static function boot(): void
+    protected static function boot()
     {
         parent::boot();
 
         // При сохранении элемента
         static::saving(function (self $model) {
-            $old = self::find($model->id);
+
+            // Удалить кэш
+            cache()->flush();
+
             // Если файл поменялся
+            $old = self::find($model->id);
             if ($old && $old->file !== $model->file) {
+
                 // Поменять данные файла
                 $newData = FileHelper::getDataFile($model->file);
                 if ($newData) {
                     $newData['user_id'] = auth()?->id();
                     $model->fill($newData);
+
                     // Удалить старый файл с сервера
                     FileHelper::deleteFile($old->file);
+
+                    // Редирект на туже страницу для обновления данных
+                    return redirect()->to(RouteHelper::getFilamentRoute($model->getTable(), $model->id));
                 }
             }
-
-            // Удалить кэш
-            cache()->flush();
         });
 
         // При удалении элемента
