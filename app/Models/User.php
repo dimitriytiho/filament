@@ -88,6 +88,19 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
     }
 
     /**
+     * Полиморфная связь с файлами.
+     *
+     * @return MorphToMany
+     */
+    /*public function files(): MorphToMany
+    {
+        return $this->morphToMany(File::class, 'fileable')
+            ->withPivot(['sort']) // Указать колонки из связующей таблицы, по которым можно сортировать
+            ->withTimestamps();
+    }*/
+
+
+    /**
      * @return void
      */
     protected static function boot(): void

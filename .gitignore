@@ -29,6 +29,7 @@ package-lock.json
 /public/js/filament
 /public/js/njxqlus
 /public/js/saade
+/public/file
 
 # Project exclude paths
 /storage/app/

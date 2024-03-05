@@ -33,6 +33,19 @@ return [
     'slug' => 'lk',
     'date_format' => 'd.m.Y H:i',
     'cache_time' => 600, // second
+    'file' => [
+        // Максимальный размер файла в кб
+        'size' => 20480, // 20mb
+        // Разрешаемую миме-типы
+        'mine_type' => [
+            'application/pdf',
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/svg+xml',
+            'image/webp',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
