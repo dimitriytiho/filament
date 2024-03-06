@@ -6,7 +6,7 @@ use App\Models\MenuName;
 use App\Models\Menu as MenuModel;
 
 /**
- * В видах можно вызывать без пространства имён.
+ * В видах можно вызывать без пространства имён, например Menu::get('footer').
  */
 class MenuHelper
 {
