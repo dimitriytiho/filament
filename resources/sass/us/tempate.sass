@@ -1,0 +1,54 @@
+html
+    scroll-behavior: smooth // Делает плавный скрол к якорю
+html,
+body
+    height: 100%
+body
+    width: 100%
+    min-width: 320px
+    max-width: 100%
+    overflow-wrap: break-word
+    word-wrap: break-word
+    hyphens: auto
+    overflow-x: hidden !important
+
+.cur
+    cursor: pointer
+
+.js-none
+    display: none
+
+a
+    text-decoration: none
+
+#spinner
+    display: none
+    .spinner-block
+        position: fixed
+        top: 0
+        right: 0
+        bottom: 0
+        left: 0
+        display: flex
+        justify-content: center
+        align-items: center
+        background-color: rgba($white, .85)
+        z-index: $z-index
+        & > div
+            width: 14rem
+            height: 14rem
+
+#btn-up
+    position: fixed
+    bottom: 1.3rem
+    right: 1.5rem
+    z-index: $z-index
+    width: 2rem
+    height: 2rem
+    color: $white
+    border-radius: 50%
+    cursor: pointer
+    display: flex
+    justify-content: center
+    align-items: center
+    @include hover(rgba($dark, .5), $primary, background)

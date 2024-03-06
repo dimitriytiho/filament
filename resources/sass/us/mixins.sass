@@ -1,0 +1,11 @@
+@mixin cover($size: cover, $position: center)
+    background-size: $size
+    background-position: $position
+    background-repeat: no-repeat
+
+@mixin hover($color: $primary, $hover: darken($color, 15%), $style: color)
+    #{$style}: $color
+    transition: all $transition
+    &:hover,
+    &:active
+        #{$style}: $hover
