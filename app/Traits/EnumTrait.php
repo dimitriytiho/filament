@@ -5,8 +5,8 @@ namespace App\Traits;
 trait EnumTrait
 {
     /**
-     * @return array
      * Возвращает все cases.
+     * @return array
      */
     public static function getCases(): array
     {
@@ -21,8 +21,8 @@ trait EnumTrait
 
 
     /**
-     * @return array
      * Возвращает все name cases.
+     * @return array
      */
     public static function names(): array
     {
@@ -36,8 +36,8 @@ trait EnumTrait
     }
 
     /**
-     * @return array
      * Возвращает все value cases.
+     * @return array
      */
     public static function values(): array
     {
@@ -47,8 +47,9 @@ trait EnumTrait
     /**
      * Возвращает value cases.
      * @param string|int|null $name
+     * @return string|null
      */
-    public static function value(string|int|null $name)
+    public static function value(string|int|null $name): ?string
     {
         return self::getCases()[$name] ?? null;
     }

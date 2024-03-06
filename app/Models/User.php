@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Interfaces\ModelPermissionInterface;
 use App\Traits\ModelPermissionTrait;
 use Filament\Panel;
@@ -19,7 +19,7 @@ use Filament\Models\Contracts\HasAvatar;
 
 /**
  *
- * admin СУПЕР ПОЛЬЗОВАТЕЛЬ.
+ * admin - СУПЕР ПОЛЬЗОВАТЕЛЬ.
  * Для роли админ все роли и разрешения возвращают true.
  *
  */
@@ -81,10 +81,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
      */
     public function permissions(): MorphToMany
     {
-        return $this->morphToMany(
-            Permission::class,
-            'permissionable',
-        )->withTimestamps();
+        return $this->morphToMany(Permission::class, 'permissionable')
+            ->withTimestamps();
     }
 
     /**
@@ -145,7 +143,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
     }
 
     /**
-     * Gravatar
+     * Gravatar.
      * @return string|null
      */
     public function getFilamentAvatarUrl(): ?string
@@ -154,7 +152,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
     }
 
     /**
-     * Кому разрешён доступ в админку.
+     * Кому разрешён доступ в админку filament.
      *
      * @param Panel $panel
      * @return bool
@@ -198,8 +196,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPerm
     }
 
     /**
-     * admin СУПЕРПОЛЬЗОВАТЕЛЬ
-     * Для роли админ все роли и разрешения возвращают true.
+     * admin - СУПЕР ПОЛЬЗОВАТЕЛЬ
+     * Для роли admin все роли и разрешения возвращают true.
      *
      * @return bool
      */

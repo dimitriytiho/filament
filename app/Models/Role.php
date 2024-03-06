@@ -14,7 +14,9 @@ class Role extends Model implements ModelPermissionInterface
 {
     use HasFactory, SoftDeletes, ModelPermissionTrait;
 
+    // Супер пользователь
     public const ADMIN = 'admin';
+    // Все роли
     public const ROLES = [
         self::ADMIN,
         'editor',
@@ -42,10 +44,8 @@ class Role extends Model implements ModelPermissionInterface
      */
     public function permissions(): MorphToMany
     {
-        return $this->morphToMany(
-            Permission::class,
-            'permissionable',
-        )->withTimestamps();
+        return $this->morphToMany(Permission::class, 'permissionable')
+            ->withTimestamps();
     }
 
     /**

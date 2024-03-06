@@ -17,7 +17,7 @@ trait InfoTrait
     public string|false $table = false; // class_dummies
     public string|false $view = false; // index_action
     public string|false $route = false; // index-action из routes/web.php из метода name()
-    public string $slug = ''; // route-slub
+    public string $slug = ''; // route-slug
     public string $folder = '';
     public string|false $title = false;
 

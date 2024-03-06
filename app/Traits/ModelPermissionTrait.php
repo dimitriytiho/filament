@@ -7,7 +7,7 @@ use App\Models\Role;
 trait ModelPermissionTrait
 {
     /**
-     * admin СУПЕР ПОЛЬЗОВАТЕЛЬ.
+     * admin - СУПЕР ПОЛЬЗОВАТЕЛЬ.
      * Для роли админ все роли и разрешения true.
      *
      * @return bool
