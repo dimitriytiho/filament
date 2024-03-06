@@ -19,6 +19,9 @@
 </head>
 <body>
 <div id="backdrop"></div>
+{{-- Панель администратора --}}
+@include('us.inc.panel_dashboard')
+{{-- Меню --}}
 <div id="app">
 
     @yield('header')
@@ -44,7 +47,7 @@
 </script>
 {{-- Здесь можно добавить файлы js --}}
 @yield('js')
-@if(config('app.env') === 'production' && !auth()?->user()?->isAdmin)
+@if(config('app.env') === 'production' && !auth()?->user()?->isAdmin())
     @include('us.inc.analytics')
 @endif
 </body>
