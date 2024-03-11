@@ -12,6 +12,22 @@ class MainController extends Controller
      */
     public function index(): View
     {
+        // Mail send
+         /*try {
+             \Illuminate\Support\Facades\Mail::send([], [], function ($message) {
+                 $email = 'test@site.ru';
+                 $subject = 'Test';
+                 $text = 'Lorem ipsum dolor sit amet, consecrate radicalising edit.';
+                 $message
+                     ->to($email)
+                     ->subject($subject)
+                     ->text($text);
+             });
+             dd('Mail send');
+         } catch (\Exception $e) {
+             dd($e->getMessage());
+         }*/
+
         $title = __('Main_page');
         return view(
             $this->view,
