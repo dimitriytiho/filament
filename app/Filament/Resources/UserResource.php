@@ -221,16 +221,12 @@ class UserResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('roles')
-                    ->relationship('roles', 'name', function ($query) {
-                        return $query->orderBy('id', 'desc');
-                    })
+                    ->relationship('roles', 'name', fn (Builder $query) => $query->orderBy('id', 'desc'))
                     ->searchable()
                     ->preload()
                     ->translateLabel(),
                 SelectFilter::make('permissions')
-                    ->relationship('permissions', 'name', function ($query) {
-                        return $query->orderBy('id', 'desc');
-                    })
+                    ->relationship('permissions', 'name', fn (Builder $query) => $query->orderBy('id', 'desc'))
                     ->searchable()
                     ->preload()
                     ->translateLabel(),

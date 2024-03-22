@@ -31,7 +31,7 @@ class MenuNameResource extends Resource
 
     protected static ?string $model = MenuName::class;
     public static ?string $table = 'menu_names';
-    protected static ?string $navigationIcon = 'heroicon-o-bars-3';
+    protected static ?string $navigationIcon = 'heroicon-o-bars-2';
     protected static ?int $navigationSort = 51;
 
 

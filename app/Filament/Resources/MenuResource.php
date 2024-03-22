@@ -8,16 +8,17 @@ use Filament\Tables\Actions\{ActionGroup, BulkActionGroup, CreateAction, DeleteA
 use Filament\Tables\Columns\{IconColumn, TextColumn};
 use Illuminate\Database\Eloquent\{Builder, SoftDeletingScope};
 use Filament\Forms\{Form, Get, Set};
-use App\Filament\Resources\MenuResource\RelationManagers;
 use App\Filament\Traits\ResourceTrait;
 use App\Helpers\FilamentHelper;
-use App\Helpers\TreeHelper;
 use Closure;
 use Filament\Resources\Resource;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use App\Models\{Menu, MenuName};
-use App\Helpers\MenuHelper as MenuHelper;
+use App\Helpers\MenuHelper;
+use App\Filament\Resources\MenuResource\RelationManagers;
+use App\Helpers\TreeHelper;
+//use CodeWithDennis\FilamentSelectTree\SelectTree;
 
 class MenuResource extends Resource
 {
@@ -25,7 +26,7 @@ class MenuResource extends Resource
 
     protected static ?string $model = Menu::class;
     public static ?string $table = 'menus';
-    protected static ?string $navigationIcon = 'heroicon-o-bars-2';
+    protected static ?string $navigationIcon = 'heroicon-o-bars-3';
     protected static ?int $navigationSort = 50;
 
 
@@ -70,7 +71,7 @@ class MenuResource extends Resource
                                         return TreeHelper::treeForSelect(MenuHelper::find(
                                             $get('menu_name_id'),
                                             false,
-                                            //MenuHelper::descendantsAndSelf($record)
+                                        //MenuHelper::descendantsAndSelf($record)
                                         ));
                                     })
                                     ->disableOptionWhen(function (string $value, ?Menu $record) {
@@ -88,6 +89,28 @@ class MenuResource extends Resource
                                     })
                                     ->searchable()
                                     ->translateLabel(),
+                                // https://github.com/CodeWithDennis/filament-select-tree
+                                /*SelectTree::make('parent_id')
+                                    ->label('Parent')
+                                    ->placeholder(__('select_category'))
+                                    ->emptyLabel(__('nothing_was_found'))
+                                    ->relationship('menus', 'id', 'parent_id', fn (Builder $query) => $query->orderBy('id', 'desc'))
+                                    ->searchable()
+                                    ->withCount()
+                                    ->disabledOptions(function (?Menu $record): array {
+                                        // Получаем родителей
+                                        //$ancestors = $record?->ancestors?->pluck('id');
+                                        // Получаем потомков
+                                        $descendants = $record?->descendants?->pluck('id');
+                                        // Добавляем id текущей записи
+                                        if ($record?->id) {
+                                            $descendants->push($record->id);
+                                        }
+                                        // Выключаем option, которые равны id потомкам или текущему id
+                                        return $descendants?->toArray() ?: [];
+                                    })
+                                    ->defaultOpenLevel(2)
+                                    ->translateLabel(),*/
                                 TextInput::make('title')
                                     ->maxLength(255)
                                     ->translateLabel(),
@@ -338,9 +361,7 @@ class MenuResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('menu_name')
-                    ->relationship('menuName', 'name', function ($query) {
-                        return $query->orderBy('sort');
-                    })
+                    ->relationship('menuName', 'name', fn (Builder $query) => $query->orderBy('id', 'desc'))
                     ->searchable()
                     ->default($menuNameFirstId)
                     ->preload()
