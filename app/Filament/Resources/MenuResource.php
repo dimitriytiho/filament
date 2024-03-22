@@ -69,10 +69,11 @@ class MenuResource extends Resource
                                     ])
                                     ->options(function (Get $get) {
                                         return TreeHelper::treeForSelect(MenuHelper::find(
-                                            $get('menu_name_id'),
-                                            false,
-                                        //MenuHelper::descendantsAndSelf($record)
+                                            id: $get('menu_name_id'),
+                                            active: false,
+                                            sort: 'id',
                                         ));
+                                        //MenuHelper::descendantsAndSelf($record)
                                     })
                                     ->disableOptionWhen(function (string $value, ?Menu $record) {
                                         // Получаем родителей
