@@ -51,7 +51,8 @@ class MenuHelper
                 if ($active) {
                     $query->where('active', true);
                 }
-                $query->orderBy('sort', 'desc');
+                // Здесь можно изменить сортировку
+                $query->orderBy('id', 'desc');
             }])
             ->first()
             ?->menus
