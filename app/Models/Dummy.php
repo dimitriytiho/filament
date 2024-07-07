@@ -17,6 +17,28 @@ class Dummy extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+        'title' => 'string',
+        'slug' => 'string',
+        'active' => 'bool',
+        'sort' => 'int',
+        'body' => 'string',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    /*protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'options' => \Illuminate\Database\Eloquent\Casts\AsEnumCollection::of(\App\Enums\UserOption::class),
+        ];
+    }*/
+
     /**
      * @return void
      */
