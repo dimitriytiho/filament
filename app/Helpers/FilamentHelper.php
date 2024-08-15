@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class FilamentHelper
@@ -50,5 +51,22 @@ class FilamentHelper
             return route($route);
         }
         return null;
+    }
+
+    /**
+     * @param string $table
+     * @param string $action = index, create, edit
+     * @param string|int $recordId id for edit action
+     * @param string $modelTitleColumn column name for title in link
+     * @return ?string
+     */
+    public static function getLink(string $table, string $action, string|int $recordId, string $modelTitleColumn): ?string
+    {
+        $link = null;
+        $model = DB::table($table)->find($recordId);
+        if ($model) {
+            $link = '<a href="' . self::getUrl($table, $action, $recordId) . '">' . $model->{$modelTitleColumn} . '</a>';
+        }
+        return $link;
     }
 }
