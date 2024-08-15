@@ -25,6 +25,8 @@ use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Support\Facades\Blade;
 use Filament\Pages\Dashboard;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\Pages\HealthCheckResults;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -83,6 +85,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentProgressbarPlugin::make()->color($rgb),
+                FilamentSpatieLaravelHealthPlugin::make()->usingPage(HealthCheckResults::class),
             ])
             ->sidebarCollapsibleOnDesktop()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
