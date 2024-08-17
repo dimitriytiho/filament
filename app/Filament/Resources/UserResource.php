@@ -125,6 +125,11 @@ class UserResource extends Resource
                                     ->required(fn (string $context): bool => $context === 'create')
                                     ->minLength(8)
                                     ->translateLabel(),
+                                TextInput::make('phone')
+                                    ->maxLength(50)
+                                    ->unique(ignoreRecord: true)
+                                    ->required()
+                                    ->translateLabel(),
                             ]),
                     ]),
 
@@ -167,6 +172,14 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->limit(40)
+                    ->wrap()
+                    ->toggleable()
+                    ->translateLabel(),
+                TextColumn::make('phone')
+                    ->color('gray')
+                    ->copyable()
+                    ->searchable()
+                    ->sortable()
                     ->wrap()
                     ->toggleable()
                     ->translateLabel(),

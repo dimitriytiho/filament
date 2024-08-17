@@ -147,8 +147,9 @@
         </div>
         <div class="row justify-content-center mb-5">
             <div class="col-6">
-                <form class="validate">
+                <form method="post" action="{{ route('contact-us') }}" class="validate">
                     @csrf
+                    <input type="hidden" name="recaptcha" class="add_recaptcha_token">
                     <div class="mb-3">
                         <label for="name" class="form-label visually-hidden">Name</label>
                         <input type="text" class="form-control" name="name" id="name" placeholder="Name*" required>
@@ -164,6 +165,10 @@
                     <div class="mb-3">
                         <label for="message" class="form-label visually-hidden">Message</label>
                         <textarea class="form-control" name="message" id="message" rows="3" placeholder="Message"></textarea>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="policy" id="policy" required>
+                        <label class="form-check-label" for="policy">Согласие на обработку персональных данных</label>
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary">Submit</button>

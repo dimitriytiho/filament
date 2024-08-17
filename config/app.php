@@ -13,6 +13,8 @@ return [
     |
     */
 
+    'recaptcha_public_key' => env('RECAPTCHA_PUBLIC_KEY'),
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*

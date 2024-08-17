@@ -19,6 +19,7 @@ class UserRoleSeeder extends Seeder
             [
                 'name' => 'admin',
                 'email' => 'admin@admin.ru',
+                'phone' => '77777777777',
                 'password' => Hash::make('12344321'),
                 'created_at' => now(),
                 'updated_at' => now(),

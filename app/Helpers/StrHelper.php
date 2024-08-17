@@ -5,6 +5,20 @@ namespace App\Helpers;
 class StrHelper
 {
     /**
+     * @param string|null $phone
+     * @return int
+     */
+    public static function phoneFormat(?string $phone): int
+    {
+        $phone = preg_replace('/[^0-9]+/', '', $phone);
+        // Если первая цифра 8, то меняем на 7
+        if (substr($phone, 0, 1) == 8) {
+            $phone = '7' . substr($phone, 1);
+        }
+        return intval($phone);
+    }
+
+    /**
      * Склонение слов в зависимости от кол-ва.
      *
      * @param int $count

@@ -18,9 +18,7 @@
                     @if(session()->has('error'))
                         <span>{{ session('error') }}</span>
                     @endif
-                    <button type="button" class="close" data-dismiss="alert" aria-label="@lang('Close')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@lang('Close')"></button>
                 </div>
             </div>
         </div>
@@ -41,9 +39,7 @@
                     @if(session()->has('success'))
                         <span>{{ session('success') }}</span>
                     @endif
-                    <button type="button" class="close" data-dismiss="alert" aria-label="@lang('Close')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@lang('Close')"></button>
                 </div>
             </div>
         </div>
@@ -56,9 +52,7 @@
             <div class="col">
                 <div class="alert alert-info alert-dismissible fade show py-3 px-4" role="alert">
                     <span>{{ session('info') }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="@lang('Close')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@lang('Close')"></button>
                 </div>
             </div>
         </div>

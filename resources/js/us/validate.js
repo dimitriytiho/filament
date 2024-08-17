@@ -37,7 +37,7 @@ $.validator.setDefaults({
                 .addClass('d-inline-flex')
                 .append(spinner)
         }
-        return false
+        return true
     }
 })
 

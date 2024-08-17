@@ -2,15 +2,21 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ empty($title) ? config('app.name') : $title . ' | ' . config('app.name') }}</title>
-    <meta name="description" content="{{ $description ?? ' ' }}" />
+    <meta name="description" content="{{ $description ?? ' ' }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {{--<link rel="apple-touch-icon" href="{{ asset('touch-icon-iphone.png') }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('touch-icon-ipad.png') }}">
     <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('touch-icon-iphone-retina.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('touch-icon-ipad-retina.png') }}">--}}
+    @if(app()->environment('production'))
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('app.recaptcha_public_key') }}"></script>
+        <script>
+            const recaptchaPublicKey = '{{ config('app.recaptcha_public_key') }}';
+        </script>
+    @endif
     {{-- Google Material Symbols Outlined --}}
     {{--<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">--}}
     {{-- Fontawesome icons --}}

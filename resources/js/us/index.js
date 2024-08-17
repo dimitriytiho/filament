@@ -6,5 +6,6 @@ window.$ = $
 import './pulse'
 import './validate'
 import './imask'
+import './recaptcha'
 import './scroll'
 import './script'
