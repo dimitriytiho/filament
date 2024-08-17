@@ -11,7 +11,7 @@ use Illuminate\Http\{RedirectResponse, Request};
 
 class FormController extends Controller
 {
-    public function contactUs(Request $request): RedirectResponse
+    public function formNew(Request $request): RedirectResponse
     {
         $request->merge(['phone' => StrHelper::phoneFormat($request->get('phone'))]);
         $rules = [

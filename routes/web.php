@@ -6,7 +6,8 @@ use App\Http\Controllers\Us\{DummyController, FormController, MainController};
 Route::get('', [MainController::class, 'index'])
     ->name('main');
 
-Route::post('contact-us', [FormController::class, 'contactUs'])->name('contact-us');
+Route::post('form-new', [FormController::class, 'formNew'])
+    ->name('form-new');
 
 Route::get('dummy', [DummyController::class, 'index'])
     ->name('dummy-index');

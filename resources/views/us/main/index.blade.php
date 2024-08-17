@@ -147,7 +147,7 @@
         </div>
         <div class="row justify-content-center mb-5">
             <div class="col-6">
-                <form method="post" action="{{ route('contact-us') }}" class="validate">
+                <form method="post" action="{{ route('form-new') }}" class="validate">
                     @csrf
                     <input type="hidden" name="recaptcha" class="add_recaptcha_token">
                     <div class="mb-3">

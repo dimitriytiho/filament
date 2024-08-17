@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Interfaces\SenderInterface;
+use App\Services\Sender\SenderInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\{InteractsWithQueue, SerializesModels};
-use Illuminate\Support\Facades\Mail;
+use App\Services\Sender\EmailSender as EmailSenderService;
 
 class EmailSender implements SenderInterface, ShouldQueue
 {
@@ -31,15 +31,6 @@ class EmailSender implements SenderInterface, ShouldQueue
 
     public function handle(): void
     {
-        $message = $this->message;
-        $to = $this->to;
-        $params = $this->params;
-        Mail::send([], [], function ($mail) use ($message, $to, $params) {
-            $subject = $params['subject'] ?? 'No subject';
-            $mail
-                ->to($to)
-                ->subject($subject)
-                ->text($message);
-        });
+        new EmailSenderService($this->message, $this->to, $this->params);
     }
 }
