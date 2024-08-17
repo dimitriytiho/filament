@@ -25,7 +25,6 @@ tests:
 dump:
 	docker compose exec mysql bash -c 'cd scripts && sh export.sh'
 
-
 composer:
 	docker compose exec app composer update
 migrate:

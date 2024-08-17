@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 
@@ -25,7 +24,7 @@ use Filament\Models\Contracts\HasAvatar;
  */
 class User extends Authenticatable implements FilamentUser, HasAvatar, ModelPermissionInterface
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, ModelPermissionTrait;
+    use HasFactory, Notifiable, SoftDeletes, ModelPermissionTrait;
 
     // Запрещается редактировать
     protected $guarded = [

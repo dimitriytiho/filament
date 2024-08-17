@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Menu;
-use Database\Factories\MenuFactory;
 use Illuminate\Database\Seeder;
+use App\Models\Menu;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,11 +25,11 @@ class DatabaseSeeder extends Seeder
             // \App\Models\Menu::factory(40)->create()
         }
 
-        // \App\Models\User::factory(10)->create();
+        // User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
     }
 }
