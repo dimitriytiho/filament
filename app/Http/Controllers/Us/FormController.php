@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Us;
 
+use App\Events\FormNewEvent;
 use App\Helpers\StrHelper;
 use App\Http\Controllers\Controller;
-use App\Jobs\EmailSender;
 use App\Models\{Form, User};
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\{RedirectResponse, Request};
@@ -51,24 +51,12 @@ class FormController extends Controller
         // Сохраняем данные формы
         $form = $this->saveForm($formData);
 
-        // Данные для отправки писем
-        $site = config('app.name');
-        $userMessage = view('sender.email.contact_us.user')->render();
-        $managerMessage = view('sender.email.contact_us.manager', compact('site', 'name', 'email', 'phone', 'message'))->render();
-        $userEmailData['subject'] = __('sender.you_submitted_form') . $site;
-        $managerEmailData['subject'] = __('sender.form_sent') . $site;
-        $managerEmails = explode(',', getenv('MAIL_MANAGERS'));
-
-        // Отправка письма пользователю
-        /*EmailSender::dispatch($userMessage, $email, $userEmailData);
-        // Отправка письма менеджеру
-        if (app()->environment('production')) {
-            EmailSender::dispatch($managerMessage, $managerEmails, $managerEmailData);
-        }*/
+        // Регистрируем событие новой формы
+        event(new FormNewEvent($form));
 
         return redirect()
             ->route('main')
-            ->with('success', $userMessage);
+            ->with('success', __('sender.form_successfully_received'));
     }
 
     /**

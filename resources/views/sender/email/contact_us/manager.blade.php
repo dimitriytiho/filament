@@ -4,3 +4,4 @@
 @lang('Email'): {{ $email }}
 @lang('Phone'): {{ $phone }}
 @lang('Message'): {{ $message }}
+@lang('Id'): {{ $id }}
