@@ -16,6 +16,8 @@ class FormNewEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * Регистрируем событие новой формы.
+     *
      * Create a new event instance.
      */
     public function __construct(public readonly Form $form)
