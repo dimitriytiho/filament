@@ -40,7 +40,7 @@ trait ModelTrait
      *
      * @param object $query
      * @param Carbon|string $start
-     * @param Carbon|string $end
+     * @param Carbon|string|null $end
      * @param string $column
      * @return object
      */
