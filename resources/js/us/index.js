@@ -4,5 +4,7 @@ window.$ = $
 //import * as slick from 'slick-carousel'
 
 import './pulse'
+import './validate'
+import './imask'
 import './scroll'
 import './script'

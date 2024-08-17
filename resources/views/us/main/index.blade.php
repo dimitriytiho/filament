@@ -140,6 +140,37 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center mt-5 mb-4">Form callback</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-5">
+            <div class="col-6">
+                <form class="validate">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="name" class="form-label visually-hidden">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Name*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label visually-hidden">Phone</label>
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="Phone*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label visually-hidden">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label visually-hidden">Message</label>
+                        <textarea class="form-control" name="message" id="message" rows="3" placeholder="Message"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
 @section('footer')

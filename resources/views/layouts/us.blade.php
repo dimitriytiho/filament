@@ -11,8 +11,10 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('touch-icon-ipad.png') }}">
     <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('touch-icon-iphone-retina.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('touch-icon-ipad-retina.png') }}">--}}
+    {{-- Google Material Symbols Outlined --}}
+    {{--<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">--}}
     {{-- Fontawesome icons --}}
-    <link rel="stylesheet" href="//use.fontawesome.com/releases/v6.5.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
     @vite(['resources/sass/us/index.sass', 'resources/js/us/index.js'])
     {{-- Здесь можно добавить файлы css --}}
     @yield('css')
@@ -43,7 +45,8 @@
     <i class="fa-solid fa-arrow-up"></i>
 </div>
 <script>
-    const _token = '{{ session()->token() }}'
+    const _token = '{{ session()->token() }}',
+        spinner = '<i class="fa-solid fa-spinner fa-spin-pulse mt-1 ms-2"></i>'
 </script>
 {{-- Здесь можно добавить файлы js --}}
 @yield('js')
