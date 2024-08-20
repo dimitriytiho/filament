@@ -8,7 +8,7 @@ services:
                 - USER_NAME=${USER_NAME:-}
                 - USER_ID=${USER_ID:-0}
                 - GROUP_ID=${GROUP_ID:-0}
-        image: databus/app
+        image: app/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         environment:
@@ -48,18 +48,6 @@ services:
         working_dir: /var/www/html
         networks:
             - sail
-    composer:
-        image: "composer"
-        volumes:
-            - '.:/var/www/html'
-        depends_on:
-            - app
-        command: install
-        working_dir: /var/www/html
-        environment:
-            - USER_ID=${USER_ID:-0}
-            - GROUP_ID=${GROUP_ID:-0}
-        user: '${USER_ID:-0}:${GROUP_ID:-0}'
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
