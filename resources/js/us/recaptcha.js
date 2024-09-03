@@ -1,7 +1,7 @@
 if (typeof recaptchaPublicKey !== 'undefined' && typeof grecaptcha !== 'undefined') {
     grecaptcha.ready(function() {
         grecaptcha.execute(recaptchaPublicKey, {action:'homepage'}).then(function(token) {
-            const body = document.querySelector('body')
+            const grecaptchaBody = document.querySelector('body')
             let issetRecaptcha = false
 
             // Если на теге есть класс add_recaptcha_input добавляем скрытый input recaptcha со значение token
@@ -28,8 +28,11 @@ if (typeof recaptchaPublicKey !== 'undefined' && typeof grecaptcha !== 'undefine
                 })
             }
 
-            if (issetRecaptcha) {
-                body.classList.add('isset_recaptcha')
+            if (grecaptchaBody) {
+                //grecaptchaBody.dataset.recaptcha = token
+                if (issetRecaptcha) {
+                    grecaptchaBody.classList.add('isset_recaptcha')
+                }
             }
         })
     })
