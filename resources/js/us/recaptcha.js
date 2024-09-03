@@ -43,7 +43,7 @@ function updateGrecaptchaToken() {
     if (typeof recaptchaPublicKey !== 'undefined' && typeof grecaptcha !== 'undefined') {
         grecaptcha.execute(recaptchaPublicKey, {action:'homepage'}).then(function(token) {
             const grecaptchaFormInputs = document.querySelectorAll('.recaptcha_input')
-            if (grecaptchaFormInputs) {
+            if (grecaptchaFormInputs.length) {
                 grecaptchaFormInputs.forEach(function (el) {
                     el.value = token
                 })
