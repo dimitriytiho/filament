@@ -66,7 +66,7 @@ class DummyResource extends Resource
                                     ->required()
                                     ->translateLabel(),
                                 TextInput::make('slug')
-                                    ->default(fn(Get $get): string => Str::slug($get('title')))
+                                    ->default(fn(Get $get): string => $get('title'))
                                     ->unique(ignoreRecord: true)
                                     ->maxLength(255)
                                     ->required()
